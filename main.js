@@ -25,9 +25,6 @@ app.config(['$routeProvider', function($routeProvider) {
 	}).when('/clients/edit', {
 		templateUrl : 'templates/clients/put.html',
 		controller : 'PutClientController'
-	}).when('/clients/delete', {
-		templateUrl : 'templates/clients/delete.html',
-		controller : 'DeleteClientController'
 	}).when('/invoices', {
 		templateUrl : 'templates/invoices/index.html',
 		controller : 'ClientsController'
@@ -385,8 +382,4 @@ app.controller('PostClientController', ['$scope', '$location', 'Client', functio
 
 app.controller('PutClientController', function($scope, $location) {
 	$scope.message = 'This is edit client screen';
-});
-
-app.controller('DeleteClientController', function($scope, $location) {
-	$scope.message = 'This is remove client screen';
 });
