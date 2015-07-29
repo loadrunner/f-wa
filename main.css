@@ -1,0 +1,58 @@
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+a {
+	text-decoration: none;
+	color: inherit;
+}
+a:hover {
+	text-decoration: underline;
+}
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+:focus {
+	outline: 0;
+}
+
+ul.menu {
+	display: block;
+	height: 40px;
+	line-height: 40px;
+}
+
+ul.menu li {
+	display: block;
+	float: left;
+	width: 180px;
+	text-align: center;
+	background-color: #ddd;
+}
+
+ul.menu li.active {
+	background-color: #999;
+}
+
+ul.menu li.active a, ul.menu li.active a:hover {
+	text-decoration: none;
+	cursor: default;
+}

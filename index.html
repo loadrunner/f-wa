@@ -1,0 +1,34 @@
+<html ng-app="facturi">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Hello World in AngularJS</title>
+	<link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+<body>
+	<ul ng-controller="MenuController" id="main-menu" class="menu">
+		<li ng-class="getClass('')">
+			<a href="#/">Index</a>
+		</li>
+		<li ng-class="getClass('clients')">
+			<a href="#/clients">Clients</a>
+		</li>
+		<li ng-class="getClass('invoices')">
+			<a href="#/invoices">Invoices</a>
+		</li>
+		<li ng-class="getClass('receipts')">
+			<a href="#/receipts">Receipts</a>
+		</li>
+		<li ng-class="" ng-show="globals.current_user">
+			<a href="" ng-click="logout()">Logout {{globals.current_user.username}}</a>
+		</li>
+	</ul>
+	<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
+	<div ng-view></div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-resource.js"></script>
+	<script src="main.js"></script>
+</body>
+</html>
