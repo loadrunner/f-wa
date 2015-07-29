@@ -16,13 +16,13 @@ app.config(['$routeProvider', function($routeProvider) {
 	}).when('/login', {
 		templateUrl : 'templates/login.html',
 		controller : 'LoginController'
-	}).when('/clients/show', {
+	}).when('/clients/show/:id', {
 		templateUrl : 'templates/clients/get.html',
 		controller : 'GetClientController'
 	}).when('/clients/add', {
 		templateUrl : 'templates/clients/post.html',
 		controller : 'PostClientController'
-	}).when('/clients/edit', {
+	}).when('/clients/edit/:id', {
 		templateUrl : 'templates/clients/put.html',
 		controller : 'PutClientController'
 	}).when('/invoices', {
@@ -308,7 +308,9 @@ app.controller('IndexController', function($scope, $location) {
 
 
 app.factory('Client', function($resource) {
-	return $resource('http://10.10.0.3/api/clients/:id', {}, {
+	return $resource('http://10.10.0.3/api/clients/:_id', {
+		_id : "@_id"
+	}, {
 		get : {
 			method  : 'GET',
 			headers : {
@@ -347,7 +349,7 @@ app.controller('ClientsController', ['$scope', '$location', 'Client', function($
 	};
 	$scope.clients = Client.query();
 	$scope.delete = function (id) {
-		Client.remove({ id : id }, function (r) {
+		Client.remove({ _id : id }, function (r) {
 			console.log(r);
 			for (var i = 0; i < $scope.clients.length; i++)
 				if ($scope.clients[i]._id == id) {
@@ -358,9 +360,10 @@ app.controller('ClientsController', ['$scope', '$location', 'Client', function($
 	};
 }]);
 
-app.controller('GetClientController', function($scope, $location) {
+app.controller('GetClientController', ['$scope', '$location', '$routeParams', 'Client', function($scope, $location, $routeParams, Client) {
 	$scope.message = 'This is show client screen';
-});
+	$scope.client = Client.get({_id : $routeParams.id});
+}]);
 
 app.controller('PostClientController', ['$scope', '$location', 'Client', function($scope, $location, Client) {
 	$scope.message = 'This is add client screen';
@@ -381,6 +384,12 @@ app.controller('PostClientController', ['$scope', '$location', 'Client', functio
 	};
 }]);
 
-app.controller('PutClientController', function($scope, $location) {
+app.controller('PutClientController', ['$scope', '$location', '$routeParams', 'Client', function($scope, $location, $routeParams, Client) {
 	$scope.message = 'This is edit client screen';
-});
+	$scope.client = Client.get({_id : $routeParams.id});
+	$scope.submit = function () {
+		$scope.client.$save(function () {
+			$location.path('/clients');
+		});
+	};
+}]);

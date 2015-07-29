@@ -1,3 +1,14 @@
-<form>
-<input />
-</form>
+<div class="">
+	<h2>Edit client</h2>
+	<form name="form" ng-submit="submit()" role="form">
+		<label for="name">Client name</label><br />
+		<input type="text" name="name" id="input-name" class="form-control" ng-model="client.name" required /><br />
+		<span ng-show="form.name.$dirty && form.name.$error.required">Name is required</span><br />
+		
+		<label for="name">CUI</label><br />
+		<input type="text" name="name" id="input-cui" class="form-control" ng-model="client.cui" required /><br />
+		<span ng-show="form.cui.$dirty && form.cui.$error.required">CUI is required</span><br />
+		
+		<button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Submit</button>
+	</form>
+</div>
