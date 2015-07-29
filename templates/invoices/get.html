@@ -1,3 +1,5 @@
-<form>
-<input />
-</form>
+<div>
+	{{ invoice.number }}<br />
+	for {{ invoice.client.name }}
+</div>
+<a href="#/invoices/edit/{{ invoice._id }}">Edit</a>

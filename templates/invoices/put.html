@@ -1,3 +1,10 @@
-<form>
-<input />
-</form>
+<div class="">
+	<h2>edit invoice</h2>
+	<form name="form" ng-submit="submit()" role="form">
+		<label for="number">Invoice number</label><br />
+		<input type="text" name="number" id="input-number" class="form-control" ng-model="invoice.number" required /><br />
+		<span ng-show="form.number.$dirty && form.number.$error.required">Number is required</span><br />
+		
+		<button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Submit</button>
+	</form>
+</div>

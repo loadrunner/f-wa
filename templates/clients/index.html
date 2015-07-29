@@ -2,7 +2,7 @@
 	<li ng-repeat="client in clients">
 		<a href="#/clients/show/{{ client._id }}">{{ client.name }}</a>
 		<a href="#/clients/edit/{{ client._id }}">edit</a>
-		<a href="" ng-click="delete(client._id)">delete</a>
+		<a href="" ng-click="remove(client._id)">delete</a>
 	</li>
 </ul>
 <a href="#/clients/add">Add client</a>
