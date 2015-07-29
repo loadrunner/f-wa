@@ -369,7 +369,8 @@ app.controller('PostClientController', ['$scope', '$location', 'Client', functio
 			return;
 		
 		var client = new Client({
-			name : $scope.name
+			name : $scope.name,
+			cui  : $scope.cui
 		});
 		client.$insert(function (res) {
 			if (res.$resolved !== true)
