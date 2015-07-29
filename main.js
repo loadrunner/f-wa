@@ -66,12 +66,23 @@ app.config(['$routeProvider', function($routeProvider) {
 app.run(['$rootScope', '$location', '$http', 'AuthenticationService', function ($rootScope, $location, $http, AuthenticationService) {
 	$rootScope.globals = $rootScope.globals || {};//TODO: use local storage
 	if (localStorage.hasOwnProperty('access_token')) {
-		AuthenticationService.login(localStorage.access_token);
+		$rootScope.globals.loading = true; // TODO: add visual loading overlay
+		AuthenticationService.login(localStorage.access_token, function (response) {
+			$rootScope.globals.loading = false;
+			
+			if (!response.success) {
+				AuthenticationService.logout();
+				$location.path('/login');
+			}
+		});
 	}
 	
 	$rootScope.logout = AuthenticationService.logout;
 	
 	$rootScope.$on('$locationChangeStart', function (event, next, current) {
+		if ($rootScope.globals.loading)
+			return;
+		
 		if (['/login', '/register'].indexOf($location.path()) >= 0) {
 			if ($rootScope.globals.current_user)
 				$location.path('/');
@@ -148,16 +159,22 @@ app.factory('AuthenticationService', ['$http', '$rootScope', '$location', 'UserS
 	service.login = function (accessToken, callback) {
 		callback = callback || function () {};
 		
-		//TODO: get user details from API
-		$rootScope.globals.current_user = {
-			username     : 'fakeusername', 
-			access_token : accessToken
-		};
+		UserService.getUserInfo(accessToken, function (response) {
+			if (!response.success)
+				return callback(response);
+			
+			$rootScope.globals.current_user = {
+					username     : 'fakeusername',
+					access_token : accessToken
+				};
+				
+				if (localStorage.access_token != accessToken)
+					localStorage.access_token = accessToken;
+				
+				callback({ success: true });
+		});
 		
-		if (localStorage.access_token != accessToken)
-			localStorage.access_token = accessToken;
-		
-		callback();
+		//TODO: maybe refresh access token
 	};
 	service.logout = function () {
 		delete $rootScope.globals.current_user;
@@ -168,38 +185,36 @@ app.factory('AuthenticationService', ['$http', '$rootScope', '$location', 'UserS
 	return service;
 }]);
 
-app.factory('UserService', ['$timeout', '$filter', '$q', function ($timeout, $filter, $q) {
-	var getUsers = function () {
-		if(!localStorage.users)
-			localStorage.users = JSON.stringify([]);
-		
-		return JSON.parse(localStorage.users);
-	};
-	
-	var setUsers = function (users) {
-		localStorage.users = JSON.stringify(users);
-	};
-	
+app.factory('UserService', ['$http', function ($http) {
 	var service = {};
 	
-	service.GetAll = function () {
-		var deferred = $q.defer();
-		deferred.resolve(getUsers());
-		return deferred.promise;
-	};
-	service.GetById = function (id) {
-		var deferred = $q.defer();
-		var filtered = $filter('filter')(getUsers(), { id: id });
-		var user = filtered.length ? filtered[0] : null;
-		deferred.resolve(user);
-		return deferred.promise;
-	};
-	service.GetByUsername = function (username) {
-		var deferred = $q.defer();
-		var filtered = $filter('filter')(getUsers(), { username: username });
-		var user = filtered.length ? filtered[0] : null;
-		deferred.resolve(user);
-		return deferred.promise;
+	service.getUserInfo = function (accessToken, callback) {
+		callback = callback || {};
+		
+		$http({
+			url     : 'http://10.10.0.3/api/users/me',
+			method  : 'get',
+			headers : {
+				'Authorization' : 'Bearer ' + accessToken
+			}
+		}).success(function (response) {
+			if (response)
+				callback({
+					success : true,
+					user    : response
+				});
+			else
+				callback({
+					success : false,
+					message : 'Generic error'
+				});
+		}).error(function (response) {
+			console.log("UserInfo error: ", response);
+			callback({
+				success : false,
+				message : 'API error'
+			});
+		});
 	};
 	service.Create = function (user) {
 		var deferred = $q.defer();
@@ -243,28 +258,12 @@ app.factory('UserService', ['$timeout', '$filter', '$q', function ($timeout, $fi
 		
 		return deferred.promise;
 	};
-	service.Delete = function (id) {
-		var deferred = $q.defer();
-		
-		var users = getUsers();
-		for (var i = 0; i < users.length; i++) {
-			var user = users[i];
-			if (user.id === id) {
-				users.splice(i, 1);
-				break;
-			}
-		}
-		setUsers(users);
-		deferred.resolve();
-		
-		return deferred.promise;
-	};
 	
 	return service;
 }]);
 ////////////////
 
-app.controller('LoginController', ['$scope', '$location', '$rootScope', 'AuthenticationService', 'FlashService', function ($scope, $location, $rootScope, AuthenticationService, FlashService) {
+app.controller('LoginController', ['$scope', '$location', '$rootScope', 'AuthenticationService', 'UserService', 'FlashService', function ($scope, $location, $rootScope, AuthenticationService, UserService, FlashService) {
 	$scope.register = function() {
 		$scope.dataLoading = true;
 		UserService.Create($scope.user).then(function (response) {
@@ -282,8 +281,13 @@ app.controller('LoginController', ['$scope', '$location', '$rootScope', 'Authent
 		$scope.dataLoading = true;
 		AuthenticationService.getAccessToken($scope.username, $scope.password, function (response) {
 			if (response.success) {
-				AuthenticationService.login(response.access_token, function () {
-					$location.path('/');
+				AuthenticationService.login(response.access_token, function (response) {
+					if (response.success) {
+						$location.path('/');
+					} else {
+						FlashService.error(response.message);
+						$scope.dataLoading = false;
+					}
 				});
 			} else {
 				FlashService.error(response.message);
