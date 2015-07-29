@@ -56,3 +56,7 @@ ul.menu li.active a, ul.menu li.active a:hover {
 	text-decoration: none;
 	cursor: default;
 }
+
+input {
+	border : 1px solid black;
+}

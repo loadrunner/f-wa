@@ -117,7 +117,7 @@ app.factory('AuthenticationService', ['$http', '$rootScope', '$location', 'UserS
 	
 	service.getAccessToken = function (username, password, callback) {
 		$http({
-			url     : 'http://10.10.0.3:3000/oauth/token',
+			url     : 'http://10.10.0.3/api/oauth/token',
 			method  : 'POST',
 			data    : {
 				grant_type    : 'password',
@@ -306,26 +306,68 @@ app.controller('IndexController', function($scope, $location) {
 });
 
 
-app.factory('Clients', function($resource) {
-	return $resource('http://10.10.0.3:3000/clients/:id');
+app.factory('Client', function($resource) {
+	return $resource('http://10.10.0.3/api/clients/:id', {}, {
+		get : {
+			method  : 'GET',
+			headers : {
+				'Authorization' : 'Bearer ' + localStorage.access_token
+			}
+		}, insert : {
+			method  : 'POST',
+			headers : {
+				'Authorization' : 'Bearer ' + localStorage.access_token
+			}
+		}, save : {
+			method  : 'PUT',
+			headers : {
+				'Authorization' : 'Bearer ' + localStorage.access_token
+			}
+		}, remove : {
+			method  : 'DELETE',
+			headers : {
+				'Authorization' : 'Bearer ' + localStorage.access_token
+			}
+		}, query : {
+			method  : 'GET',
+			isArray : true,
+			headers : {
+				'Authorization' : 'Bearer ' + localStorage.access_token
+			}
+		}
+	});
 });
 
-app.controller('ClientsController', ['$scope', '$location', 'Clients', function($scope, $location, Clients) {
+app.controller('ClientsController', ['$scope', '$location', 'Client', function($scope, $location, Client) {
 	$scope.message = 'This is list clients screen';
 	$scope.menuClass = function (page) {
 		var current = $location.path();
 		return current.match('^\/clients(\/)?'+page+'$') ? "active" : "";
 	};
-	$scope.clients = Clients.query();
+	$scope.clients = Client.query();
 }]);
 
 app.controller('GetClientController', function($scope, $location) {
 	$scope.message = 'This is show client screen';
 });
 
-app.controller('PostClientController', function($scope, $location) {
+app.controller('PostClientController', ['$scope', '$location', 'Client', function($scope, $location, Client) {
 	$scope.message = 'This is add client screen';
-});
+	$scope.submit = function () {
+		if (!$scope.name || $scope.name.length < 1)
+			return;
+		
+		var client = new Client({
+			name : $scope.name
+		});
+		client.$insert(function (res) {
+			if (res.$resolved !== true)
+				return;
+			
+			$location.path('/clients');
+		});
+	};
+}]);
 
 app.controller('PutClientController', function($scope, $location) {
 	$scope.message = 'This is edit client screen';

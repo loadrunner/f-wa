@@ -1,3 +1,10 @@
-<form>
-<input />
-</form>
+<div class="">
+	<h2>Add client</h2>
+	<div ng-show="error" class="alert alert-danger">{{error}}</div>
+	<form name="form" ng-submit="submit()" role="form">
+		<label for="name">Client name</label><br />
+		<input type="text" name="name" id="input-name" class="form-control" ng-model="name" required /><br />
+		<span ng-show="form.name.$dirty && form.name.$error.required">Name is required</span><br />
+		<button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Submit</button>
+	</form>
+</div>
