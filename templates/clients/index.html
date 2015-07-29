@@ -1,4 +1,4 @@
 <ul>
-	<li ng-repeat="client in clients"> {{ client.name }} </li>
+	<li ng-repeat="client in clients"> {{ client.name }} <a href="" ng-click="delete(client._id)">delete</a></li>
 </ul>
 <a href="#/clients/add">Add client</a>
