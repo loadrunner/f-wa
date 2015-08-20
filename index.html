@@ -10,17 +10,20 @@
 		<li ng-class="getClass('')">
 			<a href="#/">Index</a>
 		</li>
-		<li ng-class="getClass('clients')">
-			<a href="#/clients">Clients</a>
-		</li>
 		<li ng-class="getClass('invoices')">
 			<a href="#/invoices">Invoices</a>
 		</li>
 		<li ng-class="getClass('receipts')">
 			<a href="#/receipts">Receipts</a>
 		</li>
+		<li ng-class="getClass('clients')">
+			<a href="#/clients">Clients</a>
+		</li>
+		<li ng-class="getClass('products')">
+			<a href="#/products">Products</a>
+		</li>
 		<li ng-class="" ng-show="globals.current_user">
-			<a href="" ng-click="logout()">Logout {{globals.current_user.username}}</a>
+			<a href="" ng-click="logout()">Logout <span ng-bind="globals.current_user.username"></span></a>
 		</li>
 	</ul>
 	<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
