@@ -146,7 +146,7 @@ app.factory('AuthenticationService', ['$http', '$rootScope', '$location', 'UserS
 			console.log("response ", response);
 			callback({
 				success : false,
-				message : 'Username or password is incorrect'
+				message : 'API Error'
 			});
 		});
 	};
