@@ -20,11 +20,11 @@ app.config(['$routeProvider', function($routeProvider) {
 		templateUrl : 'templates/invoices/get.html',
 		controller : 'GetInvoiceController'
 	}).when('/invoices/add', {
-		templateUrl : 'templates/invoices/post.html',
-		controller : 'PostInvoiceController'
+		templateUrl : 'templates/invoices/add.html',
+		controller : 'AddInvoiceController'
 	}).when('/invoices/edit/:id', {
-		templateUrl : 'templates/invoices/put.html',
-		controller : 'PutInvoiceController'
+		templateUrl : 'templates/invoices/edit.html',
+		controller : 'EditInvoiceController'
 	}).when('/receipts', {
 		templateUrl : 'templates/receipts/index.html',
 		controller : 'ClientsController'
@@ -32,11 +32,11 @@ app.config(['$routeProvider', function($routeProvider) {
 		templateUrl : 'templates/receipts/get.html',
 		controller : 'GetClientController'
 	}).when('/receipts/add', {
-		templateUrl : 'templates/receipts/post.html',
-		controller : 'PostClientController'
+		templateUrl : 'templates/receipts/add.html',
+		controller : 'AddClientController'
 	}).when('/receipts/edit', {
-		templateUrl : 'templates/receipts/put.html',
-		controller : 'PutClientController'
+		templateUrl : 'templates/receipts/edit.html',
+		controller : 'EditClientController'
 	}).when('/receipts/delete', {
 		templateUrl : 'templates/receipts/delete.html',
 		controller : 'DeleteClientController'
@@ -47,11 +47,11 @@ app.config(['$routeProvider', function($routeProvider) {
 		templateUrl : 'templates/clients/get.html',
 		controller : 'GetClientController'
 	}).when('/clients/add', {
-		templateUrl : 'templates/clients/post.html',
-		controller : 'PostClientController'
+		templateUrl : 'templates/clients/add.html',
+		controller : 'AddClientController'
 	}).when('/clients/edit/:id', {
-		templateUrl : 'templates/clients/put.html',
-		controller : 'PutClientController'
+		templateUrl : 'templates/clients/edit.html',
+		controller : 'EditClientController'
 	}).when('/products', {
 		templateUrl : 'templates/products/index.html',
 		controller : 'ProductsController'
@@ -59,11 +59,11 @@ app.config(['$routeProvider', function($routeProvider) {
 		templateUrl : 'templates/products/get.html',
 		controller : 'GetProductController'
 	}).when('/products/add', {
-		templateUrl : 'templates/products/post.html',
-		controller : 'PostProductController'
+		templateUrl : 'templates/products/add.html',
+		controller : 'AddProductController'
 	}).when('/products/edit/:id', {
-		templateUrl : 'templates/products/put.html',
-		controller : 'PutProductController'
+		templateUrl : 'templates/products/edit.html',
+		controller : 'EditProductController'
 	}).otherwise({
 		redirectTo : '/'
 	});
@@ -374,7 +374,7 @@ app.controller('GetInvoiceController', ['$scope', '$location', '$routeParams', '
 	$scope.invoice = Invoice.get({_id : $routeParams.id});
 }]);
 
-app.controller('PostInvoiceController', ['$scope', '$location', 'Invoice', 'Client', function($scope, $location, Invoice, Client) {
+app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Client', function($scope, $location, Invoice, Client) {
 	$scope.message = 'This is add invoice screen';
 	$scope.clients = Client.query();
 	$scope.submit = function () {
@@ -395,7 +395,7 @@ app.controller('PostInvoiceController', ['$scope', '$location', 'Invoice', 'Clie
 	};
 }]);
 
-app.controller('PutInvoiceController', ['$scope', '$location', '$routeParams', 'Invoice', function($scope, $location, $routeParams, Invoice) {
+app.controller('EditInvoiceController', ['$scope', '$location', '$routeParams', 'Invoice', function($scope, $location, $routeParams, Invoice) {
 	$scope.message = 'This is edit invoice screen';
 	$scope.invoice = Invoice.get({_id : $routeParams.id});
 	$scope.submit = function () {
@@ -464,7 +464,7 @@ app.controller('GetClientController', ['$scope', '$location', '$routeParams', 'C
 	$scope.client = Client.get({_id : $routeParams.id});
 }]);
 
-app.controller('PostClientController', ['$scope', '$location', 'Client', function($scope, $location, Client) {
+app.controller('AddClientController', ['$scope', '$location', 'Client', function($scope, $location, Client) {
 	$scope.message = 'This is add client screen';
 	$scope.submit = function () {
 		if (!$scope.name || $scope.name.length < 1)
@@ -483,7 +483,7 @@ app.controller('PostClientController', ['$scope', '$location', 'Client', functio
 	};
 }]);
 
-app.controller('PutClientController', ['$scope', '$location', '$routeParams', 'Client', function($scope, $location, $routeParams, Client) {
+app.controller('EditClientController', ['$scope', '$location', '$routeParams', 'Client', function($scope, $location, $routeParams, Client) {
 	$scope.message = 'This is edit client screen';
 	$scope.client = Client.get({_id : $routeParams.id});
 	$scope.submit = function () {
@@ -551,7 +551,7 @@ app.controller('GetProductController', ['$scope', '$location', '$routeParams', '
 	$scope.product = Product.get({_id : $routeParams.id});
 }]);
 
-app.controller('PostProductController', ['$scope', '$location', 'Product', function($scope, $location, Product) {
+app.controller('AddProductController', ['$scope', '$location', 'Product', function($scope, $location, Product) {
 	$scope.message = 'This is add product screen';
 	$scope.submit = function () {
 		if (!$scope.name || $scope.name.length < 1)
@@ -570,7 +570,7 @@ app.controller('PostProductController', ['$scope', '$location', 'Product', funct
 	};
 }]);
 
-app.controller('PutProductController', ['$scope', '$location', '$routeParams', 'Product', function($scope, $location, $routeParams, Product) {
+app.controller('EditProductController', ['$scope', '$location', '$routeParams', 'Product', function($scope, $location, $routeParams, Product) {
 	$scope.message = 'This is edit product screen';
 	$scope.product = Product.get({_id : $routeParams.id});
 	$scope.submit = function () {

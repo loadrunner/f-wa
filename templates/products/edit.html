@@ -5,8 +5,8 @@
 		<input type="text" name="name" id="input-name" class="form-control" ng-model="product.name" required /><br />
 		<span ng-show="form.name.$dirty && form.name.$error.required">Name is required</span><br />
 		
-		<label for="name">CUI</label><br />
-		<input type="text" name="name" id="input-price" class="form-control" ng-model="product.price" required /><br />
+		<label for="name">Price</label><br />
+		<input type="number" name="name" id="input-price" class="form-control" ng-model="product.price" required /><br />
 		<span ng-show="form.price.$dirty && form.price.$error.required">Price required</span><br />
 		
 		<button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Submit</button>
