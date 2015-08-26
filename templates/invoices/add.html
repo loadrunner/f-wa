@@ -6,13 +6,26 @@
 		<input type="text" name="number" id="input-number" class="form-control" ng-model="number" required /><br />
 		<span ng-show="form.number.$dirty && form.number.$error.required">Number is required</span><br />
 		
-		<label for="name">client</label><br />
-		<select name="client_id" id="form-client" ng-model="client_id" required>
-			<option value="">--pick--</option>
-			<option ng-repeat="client in clients" value="{{ client._id }}">{{ client.name }}</option>
-		</select>
+		<div style="border: 1px solid black; width: 400px;">
+			<label for="name">client</label><br />
+			<select name="client.id" id="form-client" ng-model="source_client" ng-change="select_client()" ng-options="client as client.name for client in clients">
+				<option value="">--new--</option>
+				
+			</select>
+			<br /><br />
+			
+			<input type="hidden" name="client._id" id="input-id" ng-model="client._id" />
+			
+			<label for="name">Client name</label><br />
+			<input type="text" name="client.name" id="input-name" class="form-control" ng-model="client.name" required /><br />
+			<span ng-show="form.name.$dirty && form.name.$error.required">Name is required</span><br />
+			
+			<label for="name">CUI</label><br />
+			<input type="text" name="client.cui" id="input-cui" class="form-control" ng-model="client.cui" required /><br />
+			<span ng-show="form.cui.$dirty && form.cui.$error.required">CUI is required</span><br />
+			<br />
+		</div>
 		<br />
-		<span ng-show="form.client_id.$dirty && form.client_id.$error.required">client is required</span><br />
 		
 		<button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Submit</button>
 	</form>
