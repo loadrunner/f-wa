@@ -5,9 +5,32 @@
 		<input type="text" name="name" id="input-name" class="form-control" ng-model="client.name" required /><br />
 		<span ng-show="form.name.$dirty && form.name.$error.required">Name is required</span><br />
 		
-		<label for="name">CUI</label><br />
-		<input type="text" name="name" id="input-cui" class="form-control" ng-model="client.cui" required /><br />
-		<span ng-show="form.cui.$dirty && form.cui.$error.required">CUI is required</span><br />
+		<input type="text" name="name" id="input-cif" class="form-control" ng-model="client.cif" required /><br />
+		<span ng-show="form.cif.$dirty && form.cif.$error.required">CIF is required</span><br />
+		
+		<label for="name">address</label><br />
+		<input type="text" name="address" id="input-address" class="form-control" ng-model="client.address" /><br />
+		<br />
+		
+		<label for="name">city</label><br />
+		<input type="text" name="city" id="input-city" class="form-control" ng-model="client.city" required /><br />
+		<span ng-show="form.city.$dirty && form.city.$error.required">city is required</span><br />
+		
+		<label for="name">county</label><br />
+		<input type="text" name="county" id="input-country" class="form-control" ng-model="client.county" required /><br />
+		<span ng-show="form.county.$dirty && form.county.$error.required">county is required</span><br />
+		
+		<label for="name">country</label><br />
+		<input type="text" name="country" id="input-country" class="form-control" ng-model="client.country" required /><br />
+		<span ng-show="form.country.$dirty && form.country.$error.required">country is required</span><br />
+		
+		<label for="name">bank name</label><br />
+		<input type="text" name="bank_name" id="input-bank_name" class="form-control" ng-model="client.bank_name" /><br />
+		<br />
+		
+		<label for="name">bank account</label><br />
+		<input type="text" name="bank_account" id="input-bank_name" class="form-control" ng-model="client.bank_account" /><br />
+		<br />
 		
 		<button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Submit</button>
 	</form>

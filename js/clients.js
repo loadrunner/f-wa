@@ -78,19 +78,20 @@ app.controller('GetClientController', ['$scope', '$location', '$routeParams', 'C
 
 app.controller('AddClientController', ['$scope', '$location', 'Client', function($scope, $location, Client) {
 	$scope.message = 'This is add client screen';
+	$scope.client = {};
 	$scope.submit = function () {
-		if (!$scope.name || $scope.name.length < 1)
+		if (!$scope.client.name || $scope.client.name < 1)
 			return;
 		
-		var client = new Client({
-			name : $scope.name,
-			cui  : $scope.cui
-		});
+		var client = new Client($scope.client);
 		client.$insert(function (res) {
 			if (res.$resolved !== true)
-				return;
+				console.log('a');
 			
 			$location.path('/clients');
+		}, function (err) {
+			console.log(err.data);
+			alert(err.data.message);
 		});
 	};
 }]);
