@@ -61,7 +61,6 @@ app.controller('InvoicesController', ['$scope', '$location', 'Invoice', function
 	$scope.invoices = Invoice.query();
 	$scope.remove = function (id) {
 		Invoice.remove({ _id : id }, function (r) {
-			console.log(r);
 			for (var i = 0; i < $scope.invoices.length; i++)
 				if ($scope.invoices[i]._id == id) {
 					$scope.invoices.splice(i, 1);
@@ -79,25 +78,24 @@ app.controller('GetInvoiceController', ['$scope', '$location', '$routeParams', '
 app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Client', function($scope, $location, Invoice, Client) {
 	$scope.message = 'This is add invoice screen';
 	$scope.clients = Client.query();
-	$scope.client = {
-		_id  : '',
-		name : '',
-		cui  : ''
-	};
+	$scope.client = {};
 	$scope.select_client = function () {
 		if ($scope.source_client) {
-			$scope.client._id = $scope.source_client._id;
-			$scope.client.name = $scope.source_client.name;
-			$scope.client.cui = $scope.source_client.cui;
+			$scope.client._id          = $scope.source_client._id;
+			$scope.client.name         = $scope.source_client.name;
+			$scope.client.cif          = $scope.source_client.cif;
+			$scope.client.address      = $scope.source_client.address;
+			$scope.client.city         = $scope.source_client.city;
+			$scope.client.county       = $scope.source_client.county;
+			$scope.client.country      = $scope.source_client.country;
+			$scope.client.bank_name    = $scope.source_client.bank_name;
+			$scope.client.bank_account = $scope.source_client.bank_account;
 		} else {
-			$scope.client._id = '';
-			$scope.client.name = '';
-			$scope.client.cui = '';
+			$scope.client = {};
 		}
 	};
 	$scope.submit = function () {
-		if (!$scope.number || $scope.number.length < 1
-		 || !$scope.client.name || !$scope.client.cui)
+		if (!$scope.number || $scope.number.length < 1)
 			return; //not sure if needed; data already validated
 		
 		var invoice = new Invoice({
@@ -109,6 +107,9 @@ app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Clien
 				return;
 			
 			$location.path('/invoices');
+		}, function (err) {
+			console.log(err.data);
+			alert(err.data.message);
 		});
 	};
 }]);
@@ -127,9 +128,15 @@ app.controller('EditInvoiceController', ['$scope', '$location', '$routeParams', 
 	});
 	$scope.select_client = function () {
 		if ($scope.source_client) {
-			$scope.invoice.client._id = $scope.source_client._id;
-			$scope.invoice.client.name = $scope.source_client.name;
-			$scope.invoice.client.cui = $scope.source_client.cui;
+			$scope.invoice.client._id          = $scope.source_client._id;
+			$scope.invoice.client.name         = $scope.source_client.name;
+			$scope.invoice.client.cif          = $scope.source_client.cif;
+			$scope.invoice.client.address      = $scope.source_client.address;
+			$scope.invoice.client.city         = $scope.source_client.city;
+			$scope.invoice.client.county       = $scope.source_client.county;
+			$scope.invoice.client.country      = $scope.source_client.country;
+			$scope.invoice.client.bank_name    = $scope.source_client.bank_name;
+			$scope.invoice.client.bank_account = $scope.source_client.bank_account;
 		} else {
 			$scope.invoice.client._id = '';
 		}
@@ -137,6 +144,9 @@ app.controller('EditInvoiceController', ['$scope', '$location', '$routeParams', 
 	$scope.submit = function () {
 		$scope.invoice.$save(function () {
 			$location.path('/invoices');
+		}, function (err) {
+			console.log(err.data);
+			alert(err.data.message);
 		});
 	};
 }]);
