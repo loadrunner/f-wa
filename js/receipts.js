@@ -54,10 +54,6 @@ app.factory('Receipt', function($resource) {
 
 app.controller('ReceiptsController', ['$scope', '$location', 'Receipt', function($scope, $location, Receipt) {
 	$scope.message = 'This is list receipts screen';
-	$scope.menuClass = function (page) {
-		var current = $location.path();
-		return current.match('^\/receipts(\/)?'+page+'$') ? "active" : "";
-	};
 	$scope.receipts = Receipt.query();
 	$scope.remove = function (id) {
 		Receipt.remove({ _id : id }, function (r) {

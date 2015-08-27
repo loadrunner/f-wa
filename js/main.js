@@ -251,7 +251,7 @@ app.controller('MenuController', function($scope, $location) {
 	$scope.message = 'Index';
 	$scope.getClass = function (page) {
 		var current = $location.path();
-		return current.match('^\/'+page+'\(/([a-zA-Z0-9\-\_]+))?$') ? "active" : "";
+		return current.match('^\/'+page+'(\/.+)?$') ? "active" : "";
 	};
 });
 

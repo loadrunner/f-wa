@@ -54,10 +54,6 @@ app.factory('Invoice', function($resource) {
 
 app.controller('InvoicesController', ['$scope', '$location', 'Invoice', function($scope, $location, Invoice) {
 	$scope.message = 'This is list invoices screen';
-	$scope.menuClass = function (page) {
-		var current = $location.path();
-		return current.match('^\/invoices(\/)?'+page+'$') ? "active" : "";
-	};
 	$scope.invoices = Invoice.query();
 	$scope.remove = function (id) {
 		Invoice.remove({ _id : id }, function (r) {

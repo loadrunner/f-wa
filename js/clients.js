@@ -54,10 +54,6 @@ app.factory('Client', function($resource) {
 
 app.controller('ClientsController', ['$scope', '$location', 'Client', function($scope, $location, Client) {
 	$scope.message = 'This is list clients screen';
-	$scope.menuClass = function (page) {
-		var current = $location.path();
-		return current.match('^\/clients(\/)?'+page+'$') ? "active" : "";
-	};
 	$scope.clients = Client.query();
 	$scope.remove = function (id) {
 		Client.remove({ _id : id }, function (r) {

@@ -54,10 +54,6 @@ app.factory('Product', function($resource) {
 
 app.controller('ProductsController', ['$scope', '$location', 'Product', function($scope, $location, Product) {
 	$scope.message = 'This is list products screen';
-	$scope.menuClass = function (page) {
-		var current = $location.path();
-		return current.match('^\/products(\/)?'+page+'$') ? "active" : "";
-	};
 	$scope.products = Product.query();
 	$scope.remove = function (id) {
 		Product.remove({ _id : id }, function (r) {
