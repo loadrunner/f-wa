@@ -86,7 +86,7 @@ app.controller('AddClientController', ['$scope', '$location', 'Client', function
 		var client = new Client($scope.client);
 		client.$insert(function (res) {
 			if (res.$resolved !== true)
-				console.log('a');
+				return;
 			
 			$location.path('/clients');
 		}, function (err) {
@@ -102,6 +102,9 @@ app.controller('EditClientController', ['$scope', '$location', '$routeParams', '
 	$scope.submit = function () {
 		$scope.client.$save(function () {
 			$location.path('/clients');
+		}, function (err) {
+			console.log(err.data);
+			alert(err.data.message);
 		});
 	};
 }]);
