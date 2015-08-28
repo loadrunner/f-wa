@@ -29,7 +29,13 @@ del {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+	border: 1px solid black;
 }
+table td {
+	border: 1px solid black;
+	padding: 5px;
+}
+
 :focus {
 	outline: 0;
 }

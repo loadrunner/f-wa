@@ -1,0 +1,59 @@
+<div class="">
+	<h2>edit invoice</h2>
+	<form name="form" ng-submit="submit()" role="form">
+		<br />
+		
+		<table style="width: 800px;">
+			<thead>
+				<tr>
+					<td>name</td>
+					<td>price</td>
+					<td>quantity</td>
+					<td>total</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="product in invoice.products">
+					<td>
+						<input type="hidden" name="product-id" id="input-id" ng-model="product._id" />
+						
+						<input type="text" name="name" id="input-name" class="form-control" ng-model="product.name" required />
+						<span ng-show="form.name.$dirty && form.name.$error.required">Name is required</span>
+					</td>
+					<td>
+						<input type="number" name="price" id="input-price" class="form-control" ng-model="product.price" required />
+						<span ng-show="form.price.$dirty && form.price.$error.required">Price required</span>
+					</td>
+					<td>
+						<input type="number" name="quantity" id="input-quantity" class="form-control" ng-model="product.quantity" required />
+						<span ng-show="form.quantity.$dirty && form.quantity.$error.required">quantity is required</span>
+					</td>
+					<td>
+						<span ng-bind="product.price * product.quantity"></span>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="3">
+						total
+					</td>
+					<td>
+						<span ng-bind="sum()"></span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<select name="product.id" id="form-product" ng-model="source_product" ng-options="product as product.name for product in products">
+							<option value="">--custom--</option>
+						</select>
+						<input type="button" ng-click="add_product()" value="Add" />
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		
+		<br />
+		<button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Submit</button>
+	</form>
+</div>

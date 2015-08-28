@@ -15,6 +15,9 @@ app.config(['$routeProvider', function($routeProvider) {
 	}).when('/invoices/edit/:id', {
 		templateUrl : 'templates/invoices/edit.html',
 		controller : 'EditInvoiceController'
+	}).when('/invoices/edit-2/:id', {
+		templateUrl : 'templates/invoices/edit-2.html',
+		controller : 'EditStep2InvoiceController'
 	});
 }]);
 
@@ -53,7 +56,6 @@ app.factory('Invoice', function($resource) {
 });
 
 app.controller('InvoicesController', ['$scope', '$location', 'Invoice', function($scope, $location, Invoice) {
-	$scope.message = 'This is list invoices screen';
 	$scope.invoices = Invoice.query();
 	$scope.remove = function (id) {
 		Invoice.remove({ _id : id }, function (r) {
@@ -72,7 +74,6 @@ app.controller('GetInvoiceController', ['$scope', '$location', '$routeParams', '
 }]);
 
 app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Client', function($scope, $location, Invoice, Client) {
-	$scope.message = 'This is add invoice screen';
 	$scope.clients = Client.query();
 	$scope.client = {};
 	$scope.select_client = function () {
@@ -111,7 +112,6 @@ app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Clien
 }]);
 
 app.controller('EditInvoiceController', ['$scope', '$location', '$routeParams', 'Invoice', 'Client', function($scope, $location, $routeParams, Invoice, Client) {
-	$scope.message = 'This is edit invoice screen';
 	$scope.invoice = Invoice.get({_id : $routeParams.id}, function (invoice) {
 		$scope.clients = Client.query({}, function (clients) {
 			if (invoice.client._id) {
@@ -139,10 +139,71 @@ app.controller('EditInvoiceController', ['$scope', '$location', '$routeParams', 
 	};
 	$scope.submit = function () {
 		$scope.invoice.$save(function () {
-			$location.path('/invoices');
+			$location.path('/invoices/edit-2/' + $routeParams.id);
 		}, function (err) {
 			console.log(err.data);
 			alert(err.data.message);
+		});
+	};
+}]);
+
+app.controller('EditStep2InvoiceController', ['$scope', '$location', '$routeParams', '$http', 'Invoice', 'Product', function($scope, $location, $routeParams, $http, Invoice, Product) {
+	$scope.invoice = Invoice.get({_id : $routeParams.id}, function (invoice) {
+		invoice.products = invoice.products || [];
+		
+		$scope.products = Product.query();
+	});
+	$scope.add_product = function () {
+		if (!$scope.invoice || !$scope.invoice.products)
+			return;
+		
+		if ($scope.source_product) {
+			
+			for (var i = 0; i < $scope.invoice.products.length; i++)
+				if ($scope.invoice.products[i]._id == $scope.source_product._id) {
+					$scope.invoice.products[i].quantity++;
+					return;
+				}
+			
+			$scope.invoice.products.push({
+				_id      : $scope.source_product._id,
+				name     : $scope.source_product.name,
+				price    : $scope.source_product.price,
+				quantity : 1
+			});
+			
+			$scope.source_product = {};
+		} else {
+			$scope.invoice.products.push({
+				name     : '',
+				price    : '',
+				quantity : 1
+			});
+		}
+	};
+	$scope.sum = function () {
+		if (!$scope.invoice || !$scope.invoice.products)
+			return 0;
+		
+		var sum = 0;
+		for (var i = 0; i < $scope.invoice.products.length; i++) {
+			var product = $scope.invoice.products[i];
+			if (product.price && product.quantity)
+				sum += product.price * product.quantity;
+		}
+		return sum;
+	};
+	$scope.submit = function () {
+		$http({
+			url     : '/api/invoices/'+$scope.invoice._id+'/products',
+			method  : 'POST',
+			headers : { 'Authorization' : 'Bearer ' + localStorage.access_token },
+			data    : $scope.invoice.products
+		}).success(function (response) {
+			$location.path('/invoices');
+		}).error(function (response) {
+			console.log(response);
+			alert(response);
 		});
 	};
 }]);
