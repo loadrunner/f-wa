@@ -103,7 +103,7 @@ app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Clien
 			if (res.$resolved !== true)
 				return;
 			
-			$location.path('/invoices');
+			$location.path('/invoices/edit-2/' + res._id);
 		}, function (err) {
 			console.log(err.data);
 			alert(err.data.message);
