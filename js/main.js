@@ -114,15 +114,12 @@ app.factory('AuthenticationService', ['$http', '$rootScope', '$location', 'UserS
 			if (!response.success)
 				return callback(response);
 			
-			$rootScope.globals.current_user = {
-					username     : 'fakeusername',
-					access_token : accessToken
-				};
-				
-				if (localStorage.access_token != accessToken)
-					localStorage.access_token = accessToken;
-				
-				callback({ success: true });
+			$rootScope.globals.current_user = response.user;
+			
+			if (localStorage.access_token != accessToken)
+				localStorage.access_token = accessToken;
+			
+			callback({ success: true });
 		});
 		
 		//TODO: maybe refresh access token
