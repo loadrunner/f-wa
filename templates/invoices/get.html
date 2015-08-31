@@ -14,7 +14,7 @@
 			<p style="font-weight: bold; font-size: 24px; padding: 10px;">FACTURĂ</p>
 			<div class="main-info">
 				Număr: {{ invoice.number }}<br />
-				Data (zi/luna/an): {{ invoice.date }}
+				Data (zi/luna/an): {{ invoice.date.getDate() }}/{{ invoice.date.getMonth() }}/{{ invoice.date.getFullYear() }}
 			</div>
 			<br />
 			[[LOGO]]

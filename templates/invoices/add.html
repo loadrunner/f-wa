@@ -6,9 +6,13 @@
 		<input type="text" name="number" id="input-number" class="form-control" ng-model="number" required /><br />
 		<span ng-show="form.number.$dirty && form.number.$error.required">Number is required</span><br />
 		
+		<label for="date">Date</label><br />
+		<input type="date" name="date" id="input-date" class="form-control" ng-model="date" required /><br />
+		<span ng-show="form.date.$dirty && form.date.$error.required">Date is required</span><br />
+		
 		<div style="border: 1px solid black; width: 400px;">
 			<label for="name">client</label><br />
-			<select name="client_selector" id="form-client" ng-model="source_client" ng-change="select_client()" ng-options="clientx as clientx.name for clientx in clients">
+			<select name="client_selector" id="form-client" ng-model="source_client" ng-change="select_client()" ng-options="client as client.name for client in clients">
 				<option value="">--new--</option>
 				
 			</select>
