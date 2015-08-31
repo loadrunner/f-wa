@@ -69,8 +69,20 @@ app.controller('InvoicesController', ['$scope', '$location', 'Invoice', function
 }]);
 
 app.controller('GetInvoiceController', ['$scope', '$location', '$routeParams', 'Invoice', function($scope, $location, $routeParams, Invoice) {
-	$scope.message = 'This is show invoice screen';
 	$scope.invoice = Invoice.get({_id : $routeParams.id});
+	$scope.sum = function () {
+		if (!$scope.invoice || !$scope.invoice.products)
+			return 0;
+		
+		var sum = 0;
+		for (var i = 0; i < $scope.invoice.products.length; i++) {
+			var product = $scope.invoice.products[i];
+			if (product.price && product.quantity)
+				sum += product.price * product.quantity;
+		}
+		return sum;
+	};
+
 }]);
 
 app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Client', function($scope, $location, Invoice, Client) {
@@ -200,7 +212,7 @@ app.controller('EditStep2InvoiceController', ['$scope', '$location', '$routePara
 			headers : { 'Authorization' : 'Bearer ' + localStorage.access_token },
 			data    : $scope.invoice.products
 		}).success(function (response) {
-			$location.path('/invoices');
+			$location.path('/invoices/show/' + $scope.invoice._id);
 		}).error(function (response) {
 			console.log(response);
 			alert(response);

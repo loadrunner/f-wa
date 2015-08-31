@@ -1,5 +1,126 @@
-<div>
-	{{ invoice.number }}<br />
-	for {{ invoice.client.name }}
+<div id="invoice-container">
+	<div id="invoice-header">
+		<div class="col1">
+			Furnizor: {{ globals.current_user.username }}<br />
+			CIF: {{ globals.current_user.supplier_info.cif }}<br />
+			Reg. Com: {{ globals.current_user.supplier_info.reg }}<br />
+			Adresa: {{ globals.current_user.supplier_info.address }}<br />
+			Email: {{ globals.current_user.email }}<br />
+			Capital social: {{ globals.current_user.supplier_info.cap }} Lei<br />
+			IBAN: {{ globals.current_user.supplier_info.bank_account }}<br />
+			{{ globals.current_user.supplier_info.bank_name }}<br />
+		</div>
+		<div class="col2">
+			<p style="font-weight: bold; font-size: 24px; padding: 10px;">FACTURĂ</p>
+			<div class="main-info">
+				Număr: {{ invoice.number }}<br />
+				Data (zi/luna/an): {{ invoice.date }}
+			</div>
+			<br />
+			[[LOGO]]
+		</div>
+		<div class="col3">
+			Client: {{ invoice.client.name }}<br />
+			CIF: {{ invoice.client.cif }}<br />
+			Adresa: {{ invoice.client.address }}, {{ invoice.client.city }}<br />
+			Județ: {{ invoice.client.county }}<br />
+			IBAN: {{ invoice.client.bank_account }}<br />
+			Banca: {{ invoice.client.bank_name }}<br />
+		</div>
+	</div>
+	
+	<table id="invoice-body">
+		<thead>
+			<tr>
+				<th class="col-nr">Nr. Crt.</th>
+				<th class="col-name">Denumirea produselor sau a serviciilor</th>
+				<th class="col-unit">U.M.</th>
+				<th class="col-quantity">Cant.</th>
+				<th class="col-price">Pret unitar<br />-Lei-</th>
+				<th class="col-total">Valoare<br />-Lei-</th>
+			</tr>
+			<tr>
+				<th class="col-nr">
+					0
+				</th>
+				<th class="col-name">
+					1
+				</th>
+				<th class="col-unit">
+					2
+				</th>
+				<th class="col-quantity">
+					3
+				</th>
+				<th class="col-price">
+					4
+				</th>
+				<th class="col-total">
+					5 (3X4)
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="product in invoice.products">
+				<td class="col-nr">
+					{{$index + 1}}
+				</td>
+				<td class="col-name">
+					<span ng-bind="product.name"></span>
+				</td>
+				<td class="col-unit">
+					<span>buc</span>
+				</td>
+				<td class="col-quantity">
+					<span ng-bind="product.quantity"></span>
+				</td>
+				<td class="col-price">
+					<span ng-bind="product.price"></span>
+				</td>
+				<td class="col-total">
+					<span ng-bind="product.price * product.quantity"></span>
+				</td>
+			</tr>
+			<tr class="fill">
+				<td class="col-nr">
+					
+				</td>
+				<td class="col-name">
+					
+				</td>
+				<td class="col-unit">
+					
+				</td>
+				<td class="col-quantity">
+					
+				</td>
+				<td class="col-price">
+					
+				</td>
+				<td class="col-total">
+					
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="3" rowspan="2">
+					
+				</td>
+				<td colspan="1">
+					total
+				</td>
+				<td colspan="2">
+					<span ng-bind="sum()"></span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					Semnătura de primire:
+				</td>
+			</tr>
+		</tfoot>
+	</table>
 </div>
+
 <a href="#/invoices/edit/{{ invoice._id }}">Edit</a>

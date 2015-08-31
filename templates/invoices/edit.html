@@ -5,7 +5,7 @@
 		<input type="text" name="number" id="input-number" class="form-control" ng-model="invoice.number" required /><br />
 		<span ng-show="form.number.$dirty && form.number.$error.required">Number is required</span><br />
 		
-		<div style="border: 1px solid black; width: 400px;">
+		<div style="border: 1px solid black; width: 400px; padding: 5px;">
 			<label for="name">client</label><br />
 			<select name="client.id" id="form-client" ng-model="source_client" ng-change="select_client()" ng-options="client as client.name for client in clients">
 				<option value="">--custom--</option>
