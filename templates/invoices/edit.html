@@ -1,5 +1,5 @@
 <div class="">
-	<h2>edit invoice</h2>
+	<h2>edit invoice - step 1</h2>
 	<form name="form" ng-submit="submit()" role="form">
 		<label for="number">Number</label><br />
 		<input type="text" name="number" id="input-number" class="form-control" ng-model="invoice.number" required /><br />
@@ -8,6 +8,10 @@
 		<label for="date">Date</label><br />
 		<input type="date" name="date" id="input-date" class="form-control" ng-model="invoice.date" required /><br />
 		<span ng-show="form.date.$dirty && form.date.$error.required">Date is required</span><br />
+		
+		<label for="due_date">Due date</label><br />
+		<input type="date" name="due_date" id="input-due_date" class="form-control" ng-model="invoice.due_date" required /><br />
+		<span ng-show="form.due_date.$dirty && form.due_date.$error.required">Due date is required</span><br />
 		
 		<div style="border: 1px solid black; width: 400px; padding: 5px;">
 			<label for="name">client</label><br />

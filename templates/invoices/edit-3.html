@@ -1,0 +1,23 @@
+<div class="">
+	<h2>edit invoice - step 3</h2>
+	<form name="form" ng-submit="submit()" role="form">
+		
+		<label for="author_name">Intocmit de</label><br />
+		<input type="text" name="author_name" id="input-author_name" class="form-control" ng-model="invoice.author_name" /><br />
+		
+		<label for="author_id">cnp</label><br />
+		<input type="text" name="author_id" id="input-author_id" class="form-control" ng-model="invoice.author_id" /><br />
+		
+		<label for="delegate_name">delegat</label><br />
+		<input type="text" name="delegate_name" id="input-delegate_name" class="form-control" ng-model="invoice.delegate_name" /><br />
+		
+		<label for="delegate_id">CI</label><br />
+		<input type="text" name="delegate_id" id="input-delegate_id" class="form-control" ng-model="invoice.delegate_id" /><br />
+		
+		<label for="transport">mijloc de transport</label><br />
+		<input type="text" name="transport" id="input-transport" class="form-control" ng-model="invoice.transport" /><br />
+		
+		<br />
+		<button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Submit</button>
+	</form>
+</div>

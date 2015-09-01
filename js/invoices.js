@@ -18,6 +18,9 @@ app.config(['$routeProvider', function($routeProvider) {
 	}).when('/invoices/edit-2/:id', {
 		templateUrl : 'templates/invoices/edit-2.html',
 		controller : 'EditStep2InvoiceController'
+	}).when('/invoices/edit-3/:id', {
+		templateUrl : 'templates/invoices/edit-3.html',
+		controller : 'EditStep3InvoiceController'
 	});
 }]);
 
@@ -27,8 +30,13 @@ app.factory('Invoice', function($resource) {
 		if (Array.isArray(resource))
 			for (var i = 0; i < resource.length; i++)
 				resource[i] = dateInterceptor(resource[i]);
-		else if (resource.date)
-			resource.date = new Date(resource.date);
+		else {
+			if (resource.date)
+				resource.date = new Date(resource.date);
+			if (resource.due_date)
+				resource.due_date = new Date(resource.due_date);
+		}
+		
 		return resource;
 		
 	};
@@ -91,6 +99,9 @@ app.controller('GetInvoiceController', ['$scope', '$location', '$routeParams', '
 }]);
 
 app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Client', function($scope, $location, Invoice, Client) {
+	$scope.date = new Date();
+	$scope.due_date = new Date();
+	$scope.due_date.setDate($scope.date.getDate() + 5);
 	$scope.clients = Client.query();
 	$scope.client = {};
 	$scope.select_client = function () {
@@ -115,6 +126,7 @@ app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Clien
 		var invoice = new Invoice({
 			number    : $scope.number,
 			date      : $scope.date,
+			due_date  : $scope.due_date,
 			client    : $scope.client
 		});
 		invoice.$insert(function (res) {
@@ -218,10 +230,22 @@ app.controller('EditStep2InvoiceController', ['$scope', '$location', '$routePara
 			headers : { 'Authorization' : 'Bearer ' + localStorage.access_token },
 			data    : $scope.invoice.products
 		}).success(function (response) {
-			$location.path('/invoices/show/' + $scope.invoice._id);
+			$location.path('/invoices/edit-3/' + $routeParams.id);
 		}).error(function (response) {
 			console.log(response);
 			alert(response);
+		});
+	};
+}]);
+
+app.controller('EditStep3InvoiceController', ['$scope', '$location', '$routeParams', 'Invoice', function($scope, $location, $routeParams, Invoice) {
+	$scope.invoice = Invoice.get({_id : $routeParams.id});
+	$scope.submit = function () {
+		$scope.invoice.$save(function () {
+			$location.path('/invoices/show/' + $routeParams.id);
+		}, function (err) {
+			console.log(err.data);
+			alert(err.data.message);
 		});
 	};
 }]);
