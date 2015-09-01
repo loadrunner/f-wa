@@ -71,7 +71,6 @@ table.edit-products td {
 	padding: 5px;
 }
 
-
 #main-wrapper {
 	width: 1080px;
 	padding: 10px;
@@ -172,4 +171,21 @@ table.edit-products td {
 
 #invoice-body .fill {
 	height: auto;
+}
+
+#invoice-body tfoot .author {
+	padding: 0;
+}
+
+#invoice-body tfoot .author .signature-box {
+	float: left;
+	width: 140px;
+	height: 200px;
+	border-right: 1px solid black;
+	padding: 3px;
+	font-size: 14px;
+}
+
+#invoice-body tfoot .author .author-info {
+	
 }
