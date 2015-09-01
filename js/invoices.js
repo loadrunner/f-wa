@@ -80,7 +80,7 @@ app.factory('Invoice', function($resource) {
 });
 
 app.controller('InvoicesController', ['$scope', '$location', 'Invoice', function($scope, $location, Invoice) {
-	$scope.invoices = Invoice.query();
+	$scope.invoices = Invoice.query({ sort : 'code,number' });
 	$scope.remove = function (id) {
 		Invoice.remove({ _id : id }, function (r) {
 			for (var i = 0; i < $scope.invoices.length; i++)
@@ -112,10 +112,19 @@ app.controller('GetInvoiceController', ['$scope', '$location', '$routeParams', '
 app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Client', function($scope, $location, Invoice, Client) {
 	var today  = new Date();
 	today.setHours(0, 0, 0, 0);
-//	$scope.date = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDay()));
 	$scope.date = new Date(today.getTime());
 	$scope.due_date = new Date(today.getTime());
 	$scope.due_date.setDate($scope.due_date.getDate() + 5);
+	Invoice.query({ sort : '-created_at', limit : 1}, function (result) {
+		if (result && result.length > 0) {
+			var invoice = result[0];
+			if (!$scope.code)
+				$scope.code = invoice.code;
+			if (!$scope.number)
+				$scope.number = parseInt(invoice.number) + 1;
+		}
+	});
+	
 	$scope.clients = Client.query();
 	$scope.client = {};
 	$scope.select_client = function () {
