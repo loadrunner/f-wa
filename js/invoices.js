@@ -25,45 +25,56 @@ app.config(['$routeProvider', function($routeProvider) {
 }]);
 
 app.factory('Invoice', function($resource) {
-	var dateInterceptor = function(response) {
-		var resource = response.resource || response;
-		if (Array.isArray(resource))
-			for (var i = 0; i < resource.length; i++)
-				resource[i] = dateInterceptor(resource[i]);
-		else {
-			if (resource.date)
-				resource.date = new Date(resource.date);
-			if (resource.due_date)
-				resource.due_date = new Date(resource.due_date);
-		}
+	var responseInterceptor = function (response) {
+		var resource = response.resource;
+		
+		if (resource.date)
+			resource.date = new Date(resource.date);
+		
+		if (resource.due_date)
+			resource.due_date = new Date(resource.due_date);
 		
 		return resource;
-		
 	};
+	
+	var requestTransformer = function (data, headersGetter) {
+		var resource = angular.copy(data);
+		
+		if (resource.date)
+			resource.date = resource.date.getFullYear()+'-'+(resource.date.getMonth()+1)+'-'+resource.date.getDate();
+		
+		if (resource.due_date)
+			resource.due_date = resource.due_date.getFullYear()+'-'+(resource.due_date.getMonth()+1)+'-'+resource.due_date.getDate();
+		
+		return angular.toJson(resource);
+	};
+	
 	return $resource('/api/invoices/:_id', {
 		_id : "@_id"
 	}, {
 		get : {
 			method  : 'GET',
 			headers : { 'Authorization' : 'Bearer ' + localStorage.access_token },
-			interceptor: { response: dateInterceptor }
+			interceptor: { response: responseInterceptor }
 		}, insert : {
 			method  : 'POST',
 			headers : { 'Authorization' : 'Bearer ' + localStorage.access_token },
-			interceptor: { response: dateInterceptor }
+			interceptor: { response: responseInterceptor },
+			transformRequest : requestTransformer
 		}, save : {
 			method  : 'PUT',
 			headers : { 'Authorization' : 'Bearer ' + localStorage.access_token },
-			interceptor: { response: dateInterceptor }
+			interceptor: { response: responseInterceptor },
+			transformRequest : requestTransformer
 		}, remove : {
 			method  : 'DELETE',
 			headers : { 'Authorization' : 'Bearer ' + localStorage.access_token },
-			interceptor: { response: dateInterceptor }
+			interceptor: { response: responseInterceptor }
 		}, query : {
 			method  : 'GET',
 			isArray : true,
 			headers : { 'Authorization' : 'Bearer ' + localStorage.access_token },
-			interceptor: { response: dateInterceptor }
+			interceptor: { response: responseInterceptor }
 		}
 	});
 });
@@ -99,9 +110,12 @@ app.controller('GetInvoiceController', ['$scope', '$location', '$routeParams', '
 }]);
 
 app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Client', function($scope, $location, Invoice, Client) {
-	$scope.date = new Date();
-	$scope.due_date = new Date();
-	$scope.due_date.setDate($scope.date.getDate() + 5);
+	var today  = new Date();
+	today.setHours(0, 0, 0, 0);
+//	$scope.date = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDay()));
+	$scope.date = new Date(today.getTime());
+	$scope.due_date = new Date(today.getTime());
+	$scope.due_date.setDate($scope.due_date.getDate() + 5);
 	$scope.clients = Client.query();
 	$scope.client = {};
 	$scope.select_client = function () {
