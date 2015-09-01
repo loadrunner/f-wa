@@ -266,3 +266,13 @@ app.controller('IndexController', function($scope, $location) {
 	$scope.message = 'Index';
 });
 
+app.filter('numberFixedLen', function () {
+	return function(a, b){
+		var s = a + "";
+		if (s.length > b || s.length > 8)
+			return s;
+		
+		return (1e9 + s).slice(-b)
+	}
+});
+

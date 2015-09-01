@@ -13,7 +13,7 @@
 		<div class="col2">
 			<p style="font-weight: bold; font-size: 24px; padding: 10px;">FACTURĂ</p>
 			<div class="main-info">
-				Număr: {{ invoice.number }}<br />
+				Serie: {{ invoice.code }} Număr: {{ invoice.number | numberFixedLen : 4 }}<br />
 				Data (zi/luna/an): {{ invoice.date | date:'dd/MM/yyyy' }}
 			</div>
 			<img ng-src="data:{{ globals.current_user.logo }}" class="logo" />
