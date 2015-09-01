@@ -225,6 +225,9 @@ app.controller('EditStep2InvoiceController', ['$scope', '$location', '$routePara
 			});
 		}
 	};
+	$scope.remove_product = function (i) {
+		$scope.invoice.products.splice(i, 1);
+	};
 	$scope.sum = function () {
 		if (!$scope.invoice || !$scope.invoice.products)
 			return 0;

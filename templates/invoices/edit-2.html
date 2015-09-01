@@ -10,6 +10,7 @@
 					<td>price</td>
 					<td>quantity</td>
 					<td>total</td>
+					<td></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -31,6 +32,9 @@
 					<td>
 						<span ng-bind="product.price * product.quantity"></span>
 					</td>
+					<td>
+						<a href="" ng-click="remove_product($index)">X</a>
+					</td>
 				</tr>
 			</tbody>
 			<tfoot>
@@ -41,9 +45,11 @@
 					<td>
 						<span ng-bind="sum()"></span>
 					</td>
+					<td>
+					</td>
 				</tr>
 				<tr>
-					<td colspan="4">
+					<td colspan="5">
 						<select name="product.id" id="form-product" ng-model="source_product" ng-options="product as product.name for product in products">
 							<option value="">--custom--</option>
 						</select>
