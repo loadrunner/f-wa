@@ -187,11 +187,16 @@ table.edit-products td {
 	float: left;
 	width: 140px;
 	height: 200px;
+	overflow: hidden;
 	border-right: 1px solid black;
 	padding: 3px;
 	font-size: 14px;
 }
 
 #invoice-body tfoot .author .author-info {
-	
+	float: left;
+	width: 425px;
+	height: 200px;
+	padding: 5px;
+	overflow: hidden;
 }
