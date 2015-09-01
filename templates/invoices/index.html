@@ -1,6 +1,6 @@
 <ul>
 	<li ng-repeat="invoice in invoices">
-		<a href="#/invoices/show/{{ invoice._id }}">{{ invoice.number }}</a>
+		<a href="#/invoices/show/{{ invoice._id }}">{{ invoice.code }} - {{ invoice.number }}</a>
 		<a href="#/invoices/edit/{{ invoice._id }}">edit</a>
 		<a href="" ng-click="remove(invoice._id)">delete</a>
 	</li>

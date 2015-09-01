@@ -1,9 +1,13 @@
 <div class="">
 	<h2>edit invoice - step 1</h2>
 	<form name="form" ng-submit="submit()" role="form">
-		<label for="number">Number</label><br />
-		<input type="text" name="number" id="input-number" class="form-control" ng-model="invoice.number" required /><br />
-		<span ng-show="form.number.$dirty && form.number.$error.required">Number is required</span><br />
+		<label for="code">Serie</label><br />
+		<input type="text" name="code" id="input-code" class="form-control" ng-model="invoice.code" required /><br />
+		<span ng-show="form.code.$dirty && form.code.$error.required">Serie is required</span><br />
+		
+		<label for="number">Numar</label><br />
+		<input type="number" name="number" id="input-number" class="form-control" ng-model="invoice.number" required /><br />
+		<span ng-show="form.number.$dirty && form.number.$error.required">Numar is required</span><br />
 		
 		<label for="date">Date</label><br />
 		<input type="date" name="date" id="input-date" class="form-control" ng-model="invoice.date" required /><br />

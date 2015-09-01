@@ -138,6 +138,7 @@ app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Clien
 			return; //not sure if needed; data already validated
 		
 		var invoice = new Invoice({
+			code      : $scope.code,
 			number    : $scope.number,
 			date      : $scope.date,
 			due_date  : $scope.due_date,
