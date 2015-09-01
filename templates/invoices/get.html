@@ -16,8 +16,7 @@
 				Număr: {{ invoice.number }}<br />
 				Data (zi/luna/an): {{ invoice.date.getDate() }}/{{ invoice.date.getMonth() }}/{{ invoice.date.getFullYear() }}
 			</div>
-			<br />
-			[[LOGO]]
+			<img src="data:{{ globals.current_user.logo }}" class="logo" />
 		</div>
 		<div class="col3">
 			Client: {{ invoice.client.name }}<br />
