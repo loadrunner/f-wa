@@ -14,7 +14,7 @@
 			<p style="font-weight: bold; font-size: 24px; padding: 10px;">FACTURĂ</p>
 			<div class="main-info">
 				Număr: {{ invoice.number }}<br />
-				Data (zi/luna/an): {{ invoice.date.getDate() }}/{{ invoice.date.getMonth() }}/{{ invoice.date.getFullYear() }}
+				Data (zi/luna/an): {{ invoice.date | date:'dd/MM/yyyy' }}
 			</div>
 			<img src="data:{{ globals.current_user.logo }}" class="logo" />
 		</div>
@@ -131,7 +131,7 @@
 			</tr>
 		</tfoot>
 	</table>
-	Termen de plată: {{ invoice.due_date.getDate() }}/{{ invoice.due_date.getMonth() }}/{{ invoice.due_date.getFullYear() }}
+	Termen de plată: {{ invoice.due_date | date:'dd/MM/yyyy' }}
 </div>
 
 <a href="#/invoices/edit/{{ invoice._id }}" class="no-print">Edit</a>
