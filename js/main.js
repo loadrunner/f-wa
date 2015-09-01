@@ -23,6 +23,7 @@ app.run(['$rootScope', '$location', '$http', 'AuthenticationService', function (
 			
 			if (!response.success) {
 				AuthenticationService.logout();
+				$rootScope.globals.old_path = $location.path();
 				$location.path('/login');
 			}
 		});
@@ -38,8 +39,12 @@ app.run(['$rootScope', '$location', '$http', 'AuthenticationService', function (
 			if ($rootScope.globals.current_user)
 				$location.path('/');
 		} else {
-			if (!$rootScope.globals.current_user)
+			if (!$rootScope.globals.current_user) {
+				$rootScope.globals.old_path = $location.path();
 				$location.path('/login');
+			} else {
+				$rootScope.globals.old_path = null;
+			}
 		}
 	});
 }]);
@@ -230,7 +235,12 @@ app.controller('LoginController', ['$scope', '$location', '$rootScope', 'Authent
 			if (response.success) {
 				AuthenticationService.login(response.access_token, function (response) {
 					if (response.success) {
-						$location.path('/');
+						if ($rootScope.globals.old_path) {
+							$location.path($rootScope.globals.old_path);
+							$rootScope.globals.old_path = null;
+						} else {
+							$location.path('/');
+						}
 					} else {
 						FlashService.error(response.message);
 						$scope.dataLoading = false;
