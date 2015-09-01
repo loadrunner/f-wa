@@ -187,7 +187,7 @@ app.controller('EditStep2InvoiceController', ['$scope', '$location', '$routePara
 		if (!$scope.invoice || !$scope.invoice.products)
 			return;
 		
-		if ($scope.source_product) {
+		if ($scope.source_product && $scope.source_product._id) {
 			
 			for (var i = 0; i < $scope.invoice.products.length; i++)
 				if ($scope.invoice.products[i]._id == $scope.source_product._id) {
