@@ -132,6 +132,7 @@
 			</tr>
 		</tfoot>
 	</table>
+	Termen de plată: {{ invoice.due_date.getDate() }}/{{ invoice.due_date.getMonth() }}/{{ invoice.due_date.getFullYear() }}
 </div>
 
 <a href="#/invoices/edit/{{ invoice._id }}">Edit</a>
