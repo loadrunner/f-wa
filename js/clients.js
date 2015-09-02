@@ -56,8 +56,10 @@ app.controller('ClientsController', ['$scope', '$location', 'Client', function($
 	$scope.message = 'This is list clients screen';
 	$scope.clients = Client.query();
 	$scope.remove = function (id) {
+		if (!confirm("Are you sure you want to delete the client?"))
+			return;
+		
 		Client.remove({ _id : id }, function (r) {
-			console.log(r);
 			for (var i = 0; i < $scope.clients.length; i++)
 				if ($scope.clients[i]._id == id) {
 					$scope.clients.splice(i, 1);

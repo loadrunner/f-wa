@@ -82,6 +82,9 @@ app.factory('Invoice', function($resource) {
 app.controller('InvoicesController', ['$scope', '$location', 'Invoice', function($scope, $location, Invoice) {
 	$scope.invoices = Invoice.query({ sort : 'code,number' });
 	$scope.remove = function (id) {
+		if (!confirm("Are you sure you want to delete the invoice?"))
+			return;
+		
 		Invoice.remove({ _id : id }, function (r) {
 			for (var i = 0; i < $scope.invoices.length; i++)
 				if ($scope.invoices[i]._id == id) {

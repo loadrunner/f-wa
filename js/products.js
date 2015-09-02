@@ -56,6 +56,9 @@ app.controller('ProductsController', ['$scope', '$location', 'Product', function
 	$scope.message = 'This is list products screen';
 	$scope.products = Product.query();
 	$scope.remove = function (id) {
+		if (!confirm("Are you sure you want to delete the product?"))
+			return;
+		
 		Product.remove({ _id : id }, function (r) {
 			for (var i = 0; i < $scope.products.length; i++)
 				if ($scope.products[i]._id == id) {
