@@ -33,7 +33,7 @@
 						<span ng-bind="product.price * product.quantity"></span>
 					</td>
 					<td>
-						<a href="" ng-click="remove_product($index)">X</a>
+						<a href="" class="btn btn-sm btn-danger" ng-click="remove_product($index)">X</a>
 					</td>
 				</tr>
 			</tbody>
@@ -53,7 +53,7 @@
 						<select name="product.id" id="form-product" ng-model="source_product" ng-options="product as product.name for product in products">
 							<option value="">--custom--</option>
 						</select>
-						<input type="button" ng-click="add_product()" value="Add" />
+						<input type="button" class="btn btn-sm btn-primary" ng-click="add_product()" value="Add" />
 					</td>
 				</tr>
 			</tfoot>

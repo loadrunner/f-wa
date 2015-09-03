@@ -1,8 +1,8 @@
-<ul>
-	<li ng-repeat="product in products">
-		<a href="#/products/show/{{ product._id }}">{{ product.name }}</a>
-		<a href="#/products/edit/{{ product._id }}">edit</a>
-		<a href="" ng-click="remove(product._id)">delete</a>
+<ul class="list-group">
+	<li class="list-group-item" ng-repeat="product in products">
+		<a href="#/products/show/{{ product._id }}" class="btn btn-sm btn-default">{{ product.name }}</a>
+		<a href="#/products/edit/{{ product._id }}" class="btn btn-sm btn-primary">edit</a>
+		<a href="" ng-click="remove(product._id)" class="btn btn-sm btn-danger">delete</a>
 	</li>
 </ul>
-<a href="#/products/add">Add product</a>
+<a href="#/products/add" class="btn btn-sm btn-primary">Add product</a>

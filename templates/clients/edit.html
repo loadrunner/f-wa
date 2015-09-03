@@ -1,36 +1,36 @@
 <div class="">
 	<h2>Edit client</h2>
-	<form name="form" ng-submit="submit()" role="form">
+	<form name="form" ng-submit="submit()" role="form" style="width: 400px;">
 		<label for="name">Client name</label><br />
-		<input type="text" name="name" id="input-name" class="form-control" ng-model="client.name" required /><br />
+		<input type="text" name="name" id="input-name" class="form-control" ng-model="client.name" required />
 		<span ng-show="form.name.$dirty && form.name.$error.required">Name is required</span><br />
 		
 		<label for="cif">cif</label><br />
-		<input type="text" name="name" id="input-cif" class="form-control" ng-model="client.cif" required /><br />
+		<input type="text" name="name" id="input-cif" class="form-control" ng-model="client.cif" required />
 		<span ng-show="form.cif.$dirty && form.cif.$error.required">CIF is required</span><br />
 		
 		<label for="name">address</label><br />
-		<input type="text" name="address" id="input-address" class="form-control" ng-model="client.address" /><br />
+		<input type="text" name="address" id="input-address" class="form-control" ng-model="client.address" />
 		<br />
 		
 		<label for="name">city</label><br />
-		<input type="text" name="city" id="input-city" class="form-control" ng-model="client.city" required /><br />
+		<input type="text" name="city" id="input-city" class="form-control" ng-model="client.city" required />
 		<span ng-show="form.city.$dirty && form.city.$error.required">city is required</span><br />
 		
 		<label for="name">county</label><br />
-		<input type="text" name="county" id="input-country" class="form-control" ng-model="client.county" required /><br />
+		<input type="text" name="county" id="input-country" class="form-control" ng-model="client.county" required />
 		<span ng-show="form.county.$dirty && form.county.$error.required">county is required</span><br />
 		
 		<label for="name">country</label><br />
-		<input type="text" name="country" id="input-country" class="form-control" ng-model="client.country" required /><br />
+		<input type="text" name="country" id="input-country" class="form-control" ng-model="client.country" required />
 		<span ng-show="form.country.$dirty && form.country.$error.required">country is required</span><br />
 		
 		<label for="name">bank name</label><br />
-		<input type="text" name="bank_name" id="input-bank_name" class="form-control" ng-model="client.bank_name" /><br />
+		<input type="text" name="bank_name" id="input-bank_name" class="form-control" ng-model="client.bank_name" />
 		<br />
 		
 		<label for="name">bank account</label><br />
-		<input type="text" name="bank_account" id="input-bank_name" class="form-control" ng-model="client.bank_account" /><br />
+		<input type="text" name="bank_account" id="input-bank_name" class="form-control" ng-model="client.bank_account" />
 		<br />
 		
 		<button type="submit" ng-disabled="form.$invalid || dataLoading" class="btn btn-primary">Submit</button>

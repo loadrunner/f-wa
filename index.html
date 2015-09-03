@@ -3,14 +3,19 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Hello World in AngularJS</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
 </head>
 <body>
 	<div id="main-wrapper">
-		<ul ng-controller="MenuController" id="main-menu" class="menu no-print">
-			<li ng-class="getClass('')">
-				<a href="#/">Index</a>
-			</li>
+		<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#/">Facturi</a>
+		</div>
+		<div>
+		<ul ng-controller="MenuController" id="main-menu" class="nav navbar-nav no-print">
 			<li ng-class="getClass('invoices')">
 				<a href="#/invoices">Invoices</a>
 			</li>
@@ -27,6 +32,9 @@
 				<a href="" ng-click="logout()">Logout <span ng-bind="globals.current_user.username"></span></a>
 			</li>
 		</ul>
+		</div>
+		</div>
+		</nav>
 		<div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
 		<div ng-view></div>
 	</div>
@@ -34,6 +42,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-resource.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
 	<script src="js/clients.js"></script>
 	<script src="js/products.js"></script>
 	<script src="js/invoices.js"></script>
