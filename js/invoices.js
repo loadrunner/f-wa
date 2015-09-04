@@ -132,6 +132,8 @@ app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Clien
 	$scope.client = {};
 	$scope.select_client = function () {
 		if ($scope.source_client) {
+			$('.client-details').hide();
+			$('.edit-client-info').show();
 			$scope.client._id          = $scope.source_client._id;
 			$scope.client.name         = $scope.source_client.name;
 			$scope.client.cif          = $scope.source_client.cif;
@@ -143,8 +145,11 @@ app.controller('AddInvoiceController', ['$scope', '$location', 'Invoice', 'Clien
 			$scope.client.bank_account = $scope.source_client.bank_account;
 		} else {
 			$scope.client = {};
+			$('.client-details').show();
+			$('.edit-client-info').hide();
 		}
 	};
+	$scope.select_client();
 	$scope.submit = function () {
 		if (!$scope.number || $scope.number.length < 1)
 			return; //not sure if needed; data already validated
@@ -177,10 +182,13 @@ app.controller('EditInvoiceController', ['$scope', '$location', '$routeParams', 
 						$scope.source_client = client;
 				});
 			}
+			$scope.select_client();
 		});
 	});
 	$scope.select_client = function () {
 		if ($scope.source_client) {
+			$('.client-details').hide();
+			$('.edit-client-info').show();
 			$scope.invoice.client._id          = $scope.source_client._id;
 			$scope.invoice.client.name         = $scope.source_client.name;
 			$scope.invoice.client.cif          = $scope.source_client.cif;
@@ -192,6 +200,8 @@ app.controller('EditInvoiceController', ['$scope', '$location', '$routeParams', 
 			$scope.invoice.client.bank_account = $scope.source_client.bank_account;
 		} else {
 			$scope.invoice.client._id = '';
+			$('.client-details').show();
+			$('.edit-client-info').hide();
 		}
 	};
 	$scope.submit = function () {

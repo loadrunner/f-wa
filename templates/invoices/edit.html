@@ -23,41 +23,44 @@
 				<option value="">--custom--</option>
 				
 			</select>
-			<br /><br />
-			
-			<input type="hidden" name="client._id" id="input-id" ng-model="invoice.client._id" />
-			
-			<label for="name">Name</label><br />
-			<input type="text" name="client.name" id="input-name" class="form-control" ng-model="invoice.client.name" required />
-			<span ng-show="form.name.$dirty && form.name.$error.required">Name is required</span><br />
-			
-			<label for="name">CIF</label><br />
-			<input type="text" name="client.cif" id="input-cif" class="form-control" ng-model="invoice.client.cif" required />
-			<span ng-show="form.cif.$dirty && form.cif.$error.required">CIF is required</span><br />
-			
-			<label for="name">address</label><br />
-			<input type="text" name="client.address" id="input-address" class="form-control" ng-model="invoice.client.address" /><br />
 			<br />
-			
-			<label for="name">city</label><br />
-			<input type="text" name="city" id="input-city" class="form-control" ng-model="invoice.client.city" required />
-			<span ng-show="form.city.$dirty && form.city.$error.required">city is required</span><br />
-			
-			<label for="name">county</label><br />
-			<input type="text" name="county" id="input-country" class="form-control" ng-model="invoice.client.county" required />
-			<span ng-show="form.county.$dirty && form.county.$error.required">county is required</span><br />
-			
-			<label for="name">country</label><br />
-			<input type="text" name="country" id="input-country" class="form-control" ng-model="invoice.client.country" required />
-			<span ng-show="form.country.$dirty && form.country.$error.required">country is required</span><br />
-			
-			<label for="name">bank name</label><br />
-			<input type="text" name="bank_name" id="input-bank_name" class="form-control" ng-model="invoice.client.bank_name" /><br />
+			<button class="edit-client-info btn btn-sm btn-default" onclick="$(this).hide(); $('.client-details').show(); return false;">Show/Edit client info</button>
 			<br />
-			
-			<label for="name">bank account</label><br />
-			<input type="text" name="bank_account" id="input-bank_name" class="form-control" ng-model="invoice.client.bank_account" /><br />
-			<br />
+			<div class="client-details">
+				<input type="hidden" name="client._id" id="input-id" ng-model="invoice.client._id" />
+				
+				<label for="name">Name</label><br />
+				<input type="text" name="client.name" id="input-name" class="form-control" ng-model="invoice.client.name" required />
+				<span ng-show="form.name.$dirty && form.name.$error.required">Name is required</span><br />
+				
+				<label for="name">CIF</label><br />
+				<input type="text" name="client.cif" id="input-cif" class="form-control" ng-model="invoice.client.cif" required />
+				<span ng-show="form.cif.$dirty && form.cif.$error.required">CIF is required</span><br />
+				
+				<label for="name">address</label><br />
+				<input type="text" name="client.address" id="input-address" class="form-control" ng-model="invoice.client.address" />
+				<br />
+				
+				<label for="name">city</label><br />
+				<input type="text" name="city" id="input-city" class="form-control" ng-model="invoice.client.city" required />
+				<span ng-show="form.city.$dirty && form.city.$error.required">city is required</span><br />
+				
+				<label for="name">county</label><br />
+				<input type="text" name="county" id="input-country" class="form-control" ng-model="invoice.client.county" required />
+				<span ng-show="form.county.$dirty && form.county.$error.required">county is required</span><br />
+				
+				<label for="name">country</label><br />
+				<input type="text" name="country" id="input-country" class="form-control" ng-model="invoice.client.country" required />
+				<span ng-show="form.country.$dirty && form.country.$error.required">country is required</span><br />
+				
+				<label for="name">bank name</label><br />
+				<input type="text" name="bank_name" id="input-bank_name" class="form-control" ng-model="invoice.client.bank_name" />
+				<br />
+				
+				<label for="name">bank account</label><br />
+				<input type="text" name="bank_account" id="input-bank_name" class="form-control" ng-model="invoice.client.bank_account" />
+				<br />
+			</div>
 		</div>
 		<br />
 		
