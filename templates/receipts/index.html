@@ -1,3 +1,8 @@
-<form>
-<input />
-</form>
+<ul class="list-group">
+	<li ng-repeat="receipt in receipts" class="list-group-item">
+		<a href="#/receipts/show/{{ receipt._id }}" class="btn btn-sm btn-default">{{ receipt.code }} - {{ receipt.number }}</a>
+		<a href="#/receipts/edit/{{ receipt._id }}" class="btn btn-sm btn-primary">edit</a>
+		<a href="" ng-click="remove(receipt._id)" class="btn btn-sm btn-danger">delete</a>
+	</li>
+</ul>
+<a href="#/receipts/add" class="btn btn-sm btn-primary">Add receipt</a>

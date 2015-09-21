@@ -1,17 +1,17 @@
 <div class="">
-	<h2>Add receipt</h2>
+	<h2>Edit receipt</h2>
 	<div ng-show="error" class="alert alert-danger">{{error}}</div>
 	<form name="form" ng-submit="submit()" role="form" style="width: 400px;">
 		<label for="code">Serie</label><br />
-		<input type="text" name="code" id="input-code" class="form-control" ng-model="code" required />
+		<input type="text" name="code" id="input-code" class="form-control" ng-model="receipt.code" required />
 		<span ng-show="form.code.$dirty && form.code.$error.required">Serie is required</span><br />
 		
 		<label for="number">Numar</label><br />
-		<input type="number" name="number" id="input-number" class="form-control" ng-model="number" required />
+		<input type="number" name="number" id="input-number" class="form-control" ng-model="receipt.number" required />
 		<span ng-show="form.number.$dirty && form.number.$error.required">Numar is required</span><br />
 		
 		<label for="date">Date</label><br />
-		<input type="date" name="date" id="input-date" class="form-control" ng-model="date" required />
+		<input type="date" name="date" id="input-date" class="form-control" ng-model="receipt.date" required />
 		<span ng-show="form.date.$dirty && form.date.$error.required">Date is required</span><br />
 		
 		<div style="border: 1px solid black; width: 350px; padding: 8px;">
@@ -24,30 +24,30 @@
 			<button type="button" class="edit-client-info btn btn-sm btn-default" onclick="$(this).hide(); $('.client-details').show(); return false;">Show/Edit client info</button>
 			<br />
 			<div class="client-details">
-				<input type="hidden" name="client._id" id="input-id" ng-model="client._id" />
+				<input type="hidden" name="client._id" id="input-id" ng-model="receipt.client._id" />
 				
 				<label for="name">Name</label><br />
-				<input type="text" name="client.name" id="input-name" class="form-control" ng-model="client.name" required />
+				<input type="text" name="client.name" id="input-name" class="form-control" ng-model="receipt.client.name" required />
 				<span ng-show="form.name.$dirty && form.name.$error.required">Name is required</span><br />
 				
 				<label for="name">CIF</label><br />
-				<input type="text" name="client.cif" id="input-cif" class="form-control" ng-model="client.cif" required />
+				<input type="text" name="client.cif" id="input-cif" class="form-control" ng-model="receipt.client.cif" required />
 				<span ng-show="form.cif.$dirty && form.cif.$error.required">CIF is required</span><br />
 				
 				<label for="name">address</label><br />
-				<input type="text" name="client.address" id="input-address" class="form-control" ng-model="client.address" />
+				<input type="text" name="client.address" id="input-address" class="form-control" ng-model="receipt.client.address" />
 				<br />
 				
 				<label for="name">city</label><br />
-				<input type="text" name="city" id="input-city" class="form-control" ng-model="client.city" required />
+				<input type="text" name="city" id="input-city" class="form-control" ng-model="receipt.client.city" required />
 				<span ng-show="form.city.$dirty && form.city.$error.required">city is required</span><br />
 				
 				<label for="name">county</label><br />
-				<input type="text" name="county" id="input-country" class="form-control" ng-model="client.county" required />
+				<input type="text" name="county" id="input-country" class="form-control" ng-model="receipt.client.county" required />
 				<span ng-show="form.county.$dirty && form.county.$error.required">county is required</span><br />
 				
 				<label for="name">country</label><br />
-				<input type="text" name="country" id="input-country" class="form-control" ng-model="client.country" required />
+				<input type="text" name="country" id="input-country" class="form-control" ng-model="receipt.client.country" required />
 				<span ng-show="form.country.$dirty && form.country.$error.required">country is required</span><br />
 			</div>
 		</div>
@@ -63,12 +63,12 @@
 		<br />
 		
 		<label for="value">Value</label><br />
-		<input type="number" step="0.01" name="value" id="input-value" class="form-control" ng-model="value" required />
+		<input type="number" step="0.01" name="value" id="input-value" class="form-control" ng-model="receipt.value" required />
 		<span ng-show="form.value.$dirty && form.value.$error.required">Value is required</span><br />
 		<br />
 		
 		<label for="description">Description</label><br />
-		<input type="text" name="description" id="input-description" class="form-control" ng-model="description" required />
+		<input type="text" name="description" id="input-description" class="form-control" ng-model="receipt.description" required />
 		<span ng-show="form.description.$dirty && form.description.$error.required">Description is required</span><br />
 		<br />
 		
