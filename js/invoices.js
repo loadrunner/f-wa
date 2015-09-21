@@ -25,14 +25,24 @@ app.config(['$routeProvider', function($routeProvider) {
 }]);
 
 app.factory('Invoice', function($resource) {
-	var responseInterceptor = function (response) {
-		var resource = response.resource;
-		
+	var processResource = function (resource) {
 		if (resource.date)
 			resource.date = new Date(resource.date);
 		
 		if (resource.due_date)
 			resource.due_date = new Date(resource.due_date);
+		
+		return resource;
+	};
+	var responseInterceptor = function (response) {
+		var resource = response.resource;
+		
+		if (angular.isArray(resource)) {
+			for (var i = 0; i < resource.length; i++)
+				processResource(resource[i]);
+		} else {
+			processResource(resource);
+		}
 		
 		return resource;
 	};
@@ -49,7 +59,7 @@ app.factory('Invoice', function($resource) {
 		return angular.toJson(resource);
 	};
 	
-	return $resource('/api/invoices/:_id', {
+	var Invoice = $resource('/api/invoices/:_id', {
 		_id : "@_id"
 	}, {
 		get : {
@@ -77,6 +87,20 @@ app.factory('Invoice', function($resource) {
 			interceptor: { response: responseInterceptor }
 		}
 	});
+	
+	Invoice.prototype._total = function () {
+		if (!this.products && this.products.length)
+			return 0;
+		
+		var sum = 0;
+		
+		for (var i = 0; i < this.products.length; i++)
+			sum += this.products[i].price * this.products[i].quantity;
+		
+		return sum;
+	};
+	
+	return Invoice;
 });
 
 app.controller('InvoicesController', ['$scope', '$location', 'Invoice', function($scope, $location, Invoice) {
