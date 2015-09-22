@@ -73,6 +73,12 @@ app.factory('Receipt', function($resource) {
 			isArray : true,
 			headers : { 'Authorization' : 'Bearer ' + localStorage.access_token },
 			interceptor: { response: responseInterceptor }
+		}, queryInvoice : {
+			url     : '/api/invoices/:_id/receipts',
+			method  : 'GET',
+			isArray : true,
+			headers : { 'Authorization' : 'Bearer ' + localStorage.access_token },
+			interceptor: { response: responseInterceptor }
 		}
 	});
 });
@@ -97,7 +103,7 @@ app.controller('GetReceiptController', ['$scope', '$location', '$routeParams', '
 	$scope.receipt = Receipt.get({_id : $routeParams.id});
 }]);
 
-app.controller('AddReceiptController', ['$scope', '$location', 'Receipt', 'Invoice', 'Client', function($scope, $location, Receipt, Invoice, Client) {
+app.controller('AddReceiptController', ['$scope', '$location', '$routeParams', 'Receipt', 'Invoice', 'Client', function($scope, $location, $routeParams, Receipt, Invoice, Client) {
 	var today  = new Date();
 	today.setHours(0, 0, 0, 0);
 	$scope.date = new Date(today.getTime());
@@ -112,7 +118,15 @@ app.controller('AddReceiptController', ['$scope', '$location', 'Receipt', 'Invoi
 	});
 	
 	$scope.client = {};
-	$scope.clients = Client.query();
+	$scope.clients = Client.query({}, function (clients) {
+		if ($routeParams.client_id) {
+			clients.forEach(function (client) {
+				if (client._id == $routeParams.client_id)
+					$scope.source_client = client;
+			});
+		}
+		$scope.select_client();
+	});
 	$scope.invoices = [];
 	$scope.all_invoices = Invoice.query({ sort : '-created_at' }, function (invoices) {
 		if (!invoices)
@@ -121,9 +135,17 @@ app.controller('AddReceiptController', ['$scope', '$location', 'Receipt', 'Invoi
 		$scope.invoices = [];
 		if ($scope.source_client) {
 			invoices.forEach(function (invoice) {
-				if (invoice.client_id == $scope.source_client._id)
+				if (invoice.client._id == $scope.source_client._id)
 					$scope.invoices.push(invoice);
 			});
+		}
+		
+		if ($routeParams.invoice_id) {
+			invoices.forEach(function (invoice) {
+				if (invoice._id == $routeParams.invoice_id)
+					$scope.source_invoice = invoice;
+			});
+			$scope.select_invoice();
 		}
 	});
 	$scope.select_client = function () {

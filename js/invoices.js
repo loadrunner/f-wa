@@ -119,8 +119,18 @@ app.controller('InvoicesController', ['$scope', '$location', 'Invoice', function
 	};
 }]);
 
-app.controller('GetInvoiceController', ['$scope', '$location', '$routeParams', 'Invoice', function($scope, $location, $routeParams, Invoice) {
-	$scope.invoice = Invoice.get({_id : $routeParams.id});
+app.controller('GetInvoiceController', ['$scope', '$location', '$routeParams', 'Invoice', 'Receipt', function($scope, $location, $routeParams, Invoice, Receipt) {
+	$scope.invoice = Invoice.get({_id : $routeParams.id}, function (invoice) {
+		if (!invoice)
+			return;
+		
+		$scope.receipts = Receipt.queryInvoice({ _id : invoice._id }, function (receipts) {
+			if (!receipts.length) {
+				$('.show-receipts').hide();
+				$('.hide-receipts').hide();
+			}
+		});
+	});
 	$scope.sum = function () {
 		if (!$scope.invoice || !$scope.invoice.products)
 			return 0;

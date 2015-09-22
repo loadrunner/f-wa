@@ -135,3 +135,15 @@
 </div>
 
 <a href="#/invoices/edit/{{ invoice._id }}" class="no-print btn btn-sm btn-primary">Edit</a>
+<a href="#/receipts/add?client_id={{ invoice.client._id }}&invoice_id={{ invoice._id }}" class="no-print btn btn-sm btn-primary">Add receipt</a>
+<br />
+
+<br />
+<button type="button" class="no-print show-receipts btn btn-sm btn-default" onclick="$(this).hide(); $('.hide-receipts').show(); $('#receipts-container').show(); return false;">Show receipts</button>
+<button type="button" class="no-print hide-receipts btn btn-sm btn-default" onclick="$(this).hide(); $('.show-receipts').show(); $('#receipts-container').hide(); return false;" style="display: none;">Hide receipts</button>
+<br />
+
+<div id="receipts-container" style="display: none;">
+	<div ng-repeat="receipt in receipts" ng-include="'templates/receipts/get.html'" onload="">
+	</div>
+</div>
