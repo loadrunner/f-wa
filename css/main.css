@@ -169,6 +169,49 @@ table.edit-products td {
 	overflow: hidden;
 }
 
+#receipt-container {
+	padding: 5px;
+	width: 900px;
+	margin: 10px auto;
+}
+
+#receipt-body {
+	border: 2px solid black;
+	width: 100%;
+	height: 400px;
+	margin-top: 10px;
+}
+
+#receipt-body .col1 {
+	float: left;
+	width: 400px;
+	height: 250px;
+	padding: 10px;
+}
+
+#receipt-body .col2 {
+	float: right;
+	width: 400px;
+	height: 250px;
+	padding: 10px;
+	text-align: center;
+}
+
+#receipt-body .col2 .logo {
+	margin-top: 10px;
+	max-width: 200px;
+	height: 120px;
+}
+
+#receipt-body .col2 .main-info {
+	border: 1px solid black;
+}
+
+#receipt-body .description {
+	clear: both;
+	padding: 10px;
+}
+
 .edit-client-info {
 	display: none;
 }

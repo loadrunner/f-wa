@@ -1,3 +1,32 @@
-<form>
-<input />
-</form>
+<div id="receipt-container">
+	<div id="receipt-body">
+		<div class="col1">
+			Furnizor: {{ globals.current_user.supplier_info.name }}<br />
+			CIF: {{ globals.current_user.supplier_info.cif }}<br />
+			Reg. Com: {{ globals.current_user.supplier_info.reg }}<br />
+			Adresa: {{ globals.current_user.supplier_info.address }}<br />
+			Email: {{ globals.current_user.email }}<br />
+			Capital social: {{ globals.current_user.supplier_info.cap }} Lei<br />
+			IBAN: {{ globals.current_user.supplier_info.bank_account }}<br />
+			{{ globals.current_user.supplier_info.bank_name }}<br />
+		</div>
+		<div class="col2">
+			<img ng-src="data:{{ globals.current_user.logo }}" class="logo" />
+			<p style="font-weight: bold; font-size: 24px; padding: 10px;">CHITANȚĂ</p>
+			<div class="main-info">
+				Serie: {{ receipt.code }} Număr: {{ receipt.number | numberFixedLen : 4 }}<br />
+				Data (zi/luna/an): {{ receipt.date | date:'dd/MM/yyyy' }}
+			</div>
+		</div>
+		<div class="description">
+			Am primit de la <strong>{{ receipt.client.name }}</strong>,<br />
+			Adresa: {{ receipt.client.address }}, {{ receipt.client.city }}, {{ receipt.client.county }}<br />
+			suma de <strong>{{ receipt.value }}</strong> RON, adica <strong>blabla</strong><br />
+			reprezentând {{ receipt.description }}.<br />
+			<br />
+			<p style="padding-left: 500px;">Casier</p>
+		</div>
+	</div>
+</div>
+
+<a href="#/receipts/edit/{{ receipt._id }}" class="no-print btn btn-sm btn-primary">Edit</a>
