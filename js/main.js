@@ -267,12 +267,112 @@ app.controller('IndexController', function($scope, $location) {
 });
 
 app.filter('numberFixedLen', function () {
-	return function(a, b){
+	return function (a, b) {
 		var s = a + "";
 		if (s.length > b || s.length > 8)
 			return s;
 		
-		return (1e9 + s).slice(-b)
-	}
+		return (1e9 + s).slice(-b);
+	};
 });
 
+app.filter('toStringRO', function () {
+	// numerele literal
+	var $na = ["", "Unu", "Doi", "Trei", "Patru", "Cinci", "Sase", "Sapte", "Opt", "Noua"];
+	var $nb = ["", "Un",  "Doua", "Trei", "Patru", "Cinci", "Sase", "Sapte", "Opt", "Noua"];
+	var $nc = ["", "Una", "Doua","Trei", "Patru", "Cinci", "Sase", "Sapte", "Opt", "Noua"];
+	var $nd = ["", "Unu", "Doua", "Trei", "Patru", "Cinci", "Sase", "Sapte", "Opt", "Noua"];
+	
+	// exceptie "saizeci"
+	var $ex1 = 'Sai';
+	
+	// unitati
+	var $ua = ["", "Zece", "Zeci", "Zeci","Zeci","Zeci","Zeci","Zeci","Zeci","Zeci"];
+	var $ub = ["", "Suta", "Sute", "Sute","Sute","Sute","Sute","Sute","Sute","Sute"];
+	var $uc = ["", "Mie", "Mii"];
+	var $ud = ["", "Milion", "Milioane"];
+	var $ue = ["", "Miliard", "Miliarde"];
+	
+	// legatura intre grupuri
+	var $lg1 = ["", "Spre", "Spre", "Spre", "Spre", "Spre", "Spre", "Spre", "Spre", "Spre"];
+	var $lg2 = ["", "", "Si",  "Si", "Si", "Si", "Si", "Si", "Si", "Si" ];
+	
+	// moneda
+	var $mon = ["", " leu", " lei"];
+	var $ban = ["", " ban ", " bani "];
+	
+	return function (val) {
+		if (!val)
+			return '';
+		
+		var $NrI = ("000000000000" + parseInt(val)).slice(-12);
+		var $Zec = String(parseInt(val * 100)).slice(-2);
+		
+		// grupul 4 (miliarde)
+		var $Gr = $NrI.slice(0, 3);
+		var $n1 = parseInt($NrI[0]);
+		var $n2 = parseInt($NrI[1]);
+		var $n3 = parseInt($NrI[2]);
+		var $Rez = $nc[$n1] + $ub[$n1];
+		if ($n2 == 1)
+			$Rez += $nb[$n3] + $lg1[$n3] + $ua[$n2];
+		else
+			$Rez += ($n2==6 ? $ex1 : $nc[$n2]) + $ua[$n2] + $lg2[$n2] + ($Gr=="001" || $Gr=="002" ? $nb[$n3] : $nd[$n3]);
+		if ($Gr != "000")
+			$Rez += $Gr == "001" ? $ue[1] : $ue[2];
+		
+		// grupul 3 (milioane)
+		var $Gr = $NrI.slice(3, 6);
+		var $n1 = parseInt($NrI[3]);
+		var $n2 = parseInt($NrI[4]);
+		var $n3 = parseInt($NrI[5]);
+		$Rez += $nc[$n1] + $ub[$n1];
+		if ($n2 == 1)
+			$Rez += $nb[$n3] + $lg1[$n3] + $ua[$n2];
+		else
+			$Rez += ($n2 == 6 ? $ex1 : $nc[$n2]) + $ua[$n2] + $lg2[$n2] + ($Gr == "001" || $Gr=="002" ? $nb[$n3] : $nd[$n3]);
+		if ($Gr != "000")
+			$Rez += $Gr == "001" ? $ud[1] : $ud[2];
+		
+		// grupul 2 (mii)
+		var $Gr = $NrI.slice(6, 9);
+		var $n1 = parseInt($NrI[6]);
+		var $n2 = parseInt($NrI[7]);
+		var $n3 = parseInt($NrI[8]);
+		$Rez += $nc[$n1] + $ub[$n1];
+		if ($n2 == 1)
+			$Rez += $nb[$n3] + $lg1[$n3] + $ua[$n2]
+		else
+			$Rez += ($n2 == 6 ? $ex1 : $nc[$n2]) + $ua[$n2] + $lg2[$n2] + ($Gr=="001" || $Gr=="002" ? $nc[$n3] : $nd[$n3]);
+		if ($Gr != "000")
+			$Rez += $Gr == "001" ? $uc[1] : $uc[2];
+		
+		// grupul 1 (unitati)
+		var $Gr = $NrI.slice(9, 12);
+		var $n1 = parseInt($NrI[9]);
+		var $n2 = parseInt($NrI[10]);
+		var $n3 = parseInt($NrI[11]);
+		$Rez += $nc[$n1] + $ub[$n1];
+		if ($n2 == 1)
+			$Rez += $nb[$n3] + $lg1[$n3] + $ua[$n2] + $mon[2];
+		else
+			$Rez += ($n2 == 6 ? $ex1 : $nc[$n2]) + $ua[$n2] + ($n3 > 0 ? $lg2[$n2] : '') + ($NrI=="000000000001" ? ($nb[$n3] + $mon[1]) : ($na[$n3]) + $mon[2]);
+		
+		if (parseInt($NrI) == 0)
+			$Rez = "";
+		
+		// banii
+		if (parseInt($Zec) > 0) {
+			$n2 = $Zec.slice(0, 1);
+			$n3 = $Zec.slice(1, 2)
+			$Rez += ' si ';
+			var $lg22 = ($n3 == '0' ? '' : $lg2[$n2]);
+			if ($n2 == 1)
+				$Rez += $nb[$n3] . $lg1[$n3] . $ua[$n2].$ban[2];
+			else
+				$Rez += ($n2 == 6 ? $ex1 : $nc[$n2]) + $ua[$n2] + $lg22 + ($Zec == "01" ? $nb[$n3] + $ban[1] : $na[$n3] + $ban[2]);
+		}
+		
+		return $Rez;
+	};
+});

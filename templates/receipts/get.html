@@ -21,7 +21,7 @@
 		<div class="description">
 			Am primit de la <strong>{{ receipt.client.name }}</strong>,<br />
 			Adresa: {{ receipt.client.address }}, {{ receipt.client.city }}, {{ receipt.client.county }}<br />
-			suma de <strong>{{ receipt.value }}</strong> RON, adica <strong>blabla</strong><br />
+			suma de <strong>{{ receipt.value }}</strong> RON, adica <strong>{{ receipt.value | toStringRO }}</strong><br />
 			reprezentând {{ receipt.description }}.<br />
 			<br />
 			<p style="padding-left: 500px;">Casier</p>
