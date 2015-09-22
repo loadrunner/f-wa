@@ -22,11 +22,11 @@
 						<span ng-show="form.name.$dirty && form.name.$error.required">Name is required</span>
 					</td>
 					<td>
-						<input type="number" name="price" id="input-price" class="form-control" ng-model="product.price" required />
+						<input type="number" step="0.01" name="price" id="input-price" class="form-control" ng-model="product.price" required />
 						<span ng-show="form.price.$dirty && form.price.$error.required">Price required</span>
 					</td>
 					<td>
-						<input type="number" name="quantity" id="input-quantity" class="form-control" ng-model="product.quantity" required />
+						<input type="number" step="1" name="quantity" id="input-quantity" class="form-control" ng-model="product.quantity" required />
 						<span ng-show="form.quantity.$dirty && form.quantity.$error.required">quantity is required</span>
 					</td>
 					<td>
